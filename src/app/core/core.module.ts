@@ -1,12 +1,15 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { SearchService } from './search.service';
+
 @NgModule({
   imports: [
     HttpModule,
   ],
 
   providers: [
+    SearchService,
   ],
 })
 export class CoreModule {

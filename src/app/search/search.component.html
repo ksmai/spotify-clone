@@ -1,1 +1,8 @@
-SearchComponent
+<md-card><md-card-content>
+<md-input-container>
+  <input type="text" mdInput (keyup)="onKeyup(query.value)" #query>
+  <md-placeholder>Search</md-placeholder>
+</md-input-container>
+</md-card-content></md-card>
+
+<spot-result-list></spot-result-list>
