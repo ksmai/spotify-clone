@@ -1,14 +1,7 @@
 import { SimplifiedAlbum } from './simplified-album';
-import { SimplifiedArtist } from './simplified-artist';
+import { SimplifiedTrack } from './simplified-track';
 
-export class Track {
+export class Track extends SimplifiedTrack {
   album: SimplifiedAlbum;
-  artists: SimplifiedArtist[];
-  available_markets: string[]; /* tslint:disable-line variable-name */
-  href: string;
-  id: string;
-  name: string;
   popularity: number;
-  preview_url: string; /* tslint:disable-line variable-name */
-  type: string;
 }

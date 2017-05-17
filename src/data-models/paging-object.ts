@@ -1,4 +1,4 @@
-export class SearchResultSlice<T> {
+export class PagingObject<T> {
   href: string;
   items: T[];
   limit: number;

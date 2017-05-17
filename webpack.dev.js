@@ -72,6 +72,8 @@ module.exports = {
   devServer: {
     noInfo: true,
     hot: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/spotify-clone/'
+    },
   },
 };

@@ -1,1 +1,4 @@
-AlbumComponent
+<ng-container *ngIf="album | async as albumData">
+  <spot-simple-album [album]="albumData"></spot-simple-album>
+  <spot-track-result [tracks]="albumData.tracks.items"></spot-track-result>
+</ng-container>

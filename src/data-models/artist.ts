@@ -1,14 +1,10 @@
 import { Followers } from './followers';
 import { ImageObject } from './image';
+import { SimplifiedArtist } from './simplified-artist';
 
-export class Artist {
+export class Artist extends SimplifiedArtist {
   followers: Followers;
   genres: string[];
-  href: string;
-  id: string;
   images: ImageObject[];
-  name: string;
   popularity: number;
-  type: string;
-  uri: string;
 }

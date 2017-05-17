@@ -1,3 +1,7 @@
 .artist:after {
   content: " \2027 ";
 }
+
+.artist:last-child:after {
+  display: none;
+}

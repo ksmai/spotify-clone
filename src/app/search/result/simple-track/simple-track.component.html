@@ -6,7 +6,9 @@
       *ngFor="let artist of track.artists"
       class="artist"
     >{{artist.name}}</a>
-    <a href="#">{{track.album.name}}</a>
+    <a *ngIf="track.album" [routerLink]="['/album', track.album.id]">
+      {{track.album.name}}
+    </a>
   </h6>
   <span>{{format(track.duration_ms)}}</span>
 </md-list-item>

@@ -1,6 +1,6 @@
-<div class="image-wrapper">
+<a class="image-wrapper" [routerLink]="['/album', album.id]">
   <img class="image" [src]="album.images[0]?.url" [alt]="album.name">
-</div>
+</a>
 <h3 class="name">{{album.name}}</h3>
 <h6 class="artists">
   <span class="light">By </span>
