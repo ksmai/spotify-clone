@@ -2,6 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { SearchService } from './search.service';
+import { TimeFormatter } from './time-formatter.service';
 
 @NgModule({
   imports: [
@@ -10,6 +11,7 @@ import { SearchService } from './search.service';
 
   providers: [
     SearchService,
+    TimeFormatter,
   ],
 })
 export class CoreModule {

@@ -113,6 +113,10 @@ export class SearchService {
     return this.sliceResults('tracks');
   }
 
+  getBest(): Observable<Array<Artist|SimplifiedAlbum|Track>> {
+    return this.sliceResults('best_match');
+  }
+
   private get emptyResult(): SearchResult {
     return { query: '' };
   }
@@ -132,6 +136,7 @@ export class SearchService {
     params.set('offset', String(page * limit));
     params.set('limit', String(limit));
     params.set('type', types.map((t) => t.trim()).join(','));
+    params.set('best_match', String(true));
 
     return this.http
       .get(this.url, { search: params })

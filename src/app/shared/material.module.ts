@@ -5,6 +5,7 @@ import {
   MdCardModule,
   MdIconModule,
   MdInputModule,
+  MdListModule,
   MdProgressBarModule,
   MdProgressSpinnerModule,
   MdSliderModule,
@@ -22,6 +23,7 @@ const materialModules: any = [
   MdButtonModule,
   MdButtonToggleModule,
   MdIconModule,
+  MdListModule,
   MdProgressSpinnerModule,
 ];
 

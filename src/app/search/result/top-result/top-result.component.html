@@ -1,3 +1,42 @@
-{{tracks|async|json}}
-{{artists|async|json}}
-{{albums|async|json}}
+<md-list>
+  <md-list-item *ngFor="let track of tracks | async; let i = index">
+    <md-icon md-list-icon>{{numbers[i]}}</md-icon>
+    <h3 md-line>{{track.name}}</h3>
+    <h6 md-line>
+      <a href="#"
+        *ngFor="let artist of track.artists"
+        class="track-artist"
+      >{{artist.name}}</a>
+      <a href="#">{{track.album.name}}</a>
+    </h6>
+    <span>{{format(track.duration_ms)}}</span>
+  </md-list-item>
+</md-list>
+
+<section class="artists">
+  <section class="artist" *ngFor="let artist of artists | async">
+    <img
+      class="artist-image"
+      [src]="artist?.images[0]?.url"
+      [alt]="artist.name"
+    >
+    <h3 class="artist-name">{{artist.name}}</h3>
+  </section>
+</section>
+
+<section class="albums">
+  <section class="album" *ngFor="let album of albums | async">
+    <img
+      class="album-image"
+      [src]="album?.images[0]?.url"
+      [alt]="album.name"
+    >
+    <h3 class="album-name">{{album.name}}</h3>
+    <h6 class="album-artists">
+      <span class="light">By </span>
+      <a href="#" *ngFor="let artist of album.artists">
+        {{artist.name}}
+      </a>
+    </h6>
+  </section>
+</section>
