@@ -1,8 +1,12 @@
-<md-card><md-card-content>
-<md-input-container>
-  <input type="text" mdInput (keyup)="onKeyup(query.value)" #query>
-  <md-placeholder>Search</md-placeholder>
-</md-input-container>
-</md-card-content></md-card>
+<md-card>
+  <md-card-content>
+    <md-input-container>
+      <input type="text" mdInput (keyup)="onKeyup(query.value)" #query>
+      <md-placeholder>Search</md-placeholder>
+    </md-input-container>
+
+    <md-spinner *ngIf="isLoading|async"></md-spinner>
+  </md-card-content>
+</md-card>
 
 <spot-result-list></spot-result-list>

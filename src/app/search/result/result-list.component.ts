@@ -15,6 +15,7 @@ export class ResultListComponent implements OnInit {
   albums: Observable<SimplifiedAlbum[]>;
   artists: Observable<Artist[]>;
   tracks: Observable<Track[]>;
+  isLoading: Observable<boolean>;
 
   constructor(private searchService: SearchService) {
   }
@@ -23,5 +24,6 @@ export class ResultListComponent implements OnInit {
     this.albums = this.searchService.getAlbums();
     this.artists = this.searchService.getArtists();
     this.tracks = this.searchService.getTracks();
+    this.isLoading = this.searchService.getLoadingStatus();
   }
 }

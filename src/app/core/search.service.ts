@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/scan';
-import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/switchMap';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -71,7 +71,7 @@ export class SearchService {
 
         return currentResults;
       }, this.emptyResult)
-      .share();
+      .shareReplay(1);
   }
 
   nextQuery(q: string): SearchService {
