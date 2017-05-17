@@ -9,3 +9,17 @@ body {
 *:after {
   box-sizing: border-box;
 }
+
+.light,
+a:link,
+a:visited {
+  color: #fff;
+  opacity: .5;
+  text-decoration: none;
+  transition: opacity .15s ease-in-out;
+}
+
+a:hover,
+a:active {
+  opacity: 1;
+}

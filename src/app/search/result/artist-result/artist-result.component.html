@@ -1,1 +1,7 @@
-{{artists|async|json}}
+<section class="artists">
+  <spot-simple-artist
+    *ngFor="let artist of artists"
+    [artist]="artist"
+    class="artist"
+  ></spot-simple-artist>
+</section>

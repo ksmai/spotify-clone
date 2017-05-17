@@ -1,42 +1,14 @@
-<md-list>
-  <md-list-item *ngFor="let track of tracks | async; let i = index">
-    <md-icon md-list-icon>{{numbers[i]}}</md-icon>
-    <h3 md-line>{{track.name}}</h3>
-    <h6 md-line>
-      <a href="#"
-        *ngFor="let artist of track.artists"
-        class="track-artist"
-      >{{artist.name}}</a>
-      <a href="#">{{track.album.name}}</a>
-    </h6>
-    <span>{{format(track.duration_ms)}}</span>
-  </md-list-item>
-</md-list>
+<ng-container *ngIf="best|async as featured" [ngSwitch]="featured[0]?.type">
+  <spot-simple-album *ngSwitchCase="'album'" [album]="featured[0]">
+  </spot-simple-album>
 
-<section class="artists">
-  <section class="artist" *ngFor="let artist of artists | async">
-    <img
-      class="artist-image"
-      [src]="artist?.images[0]?.url"
-      [alt]="artist.name"
-    >
-    <h3 class="artist-name">{{artist.name}}</h3>
-  </section>
-</section>
+  <spot-simple-artist *ngSwitchCase="'artist'" [artist]="featured[0]">
+  </spot-simple-artist>
 
-<section class="albums">
-  <section class="album" *ngFor="let album of albums | async">
-    <img
-      class="album-image"
-      [src]="album?.images[0]?.url"
-      [alt]="album.name"
-    >
-    <h3 class="album-name">{{album.name}}</h3>
-    <h6 class="album-artists">
-      <span class="light">By </span>
-      <a href="#" *ngFor="let artist of album.artists">
-        {{artist.name}}
-      </a>
-    </h6>
-  </section>
-</section>
+  <spot-simple-album *ngSwitchCase="'track'" [album]="featured[0].album">
+  </spot-simple-album>
+</ng-container>
+
+<spot-track-result [tracks]="tracks|async"></spot-track-result>
+<spot-artist-result [artists]="artists|async"></spot-artist-result>
+<spot-album-result [albums]="albums|async"></spot-album-result>

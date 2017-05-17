@@ -1,0 +1,8 @@
+.albums {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.album {
+  flex: 0 0 200px;
+}

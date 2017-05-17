@@ -4,20 +4,20 @@
 <md-tab-group>
   <md-tab
     label="TOP RESULTS"
-    *ngIf="(tracks|async) || (artists|async) || (albums|async)"
+    *ngIf="best | async"
   >
     <spot-top-result></spot-top-result>
   </md-tab>
 
-  <md-tab label="TRACKS" *ngIf="tracks | async">
-    <spot-track-result></spot-track-result>
+  <md-tab label="ARTISTS" *ngIf="artists | async as artistList">
+    <spot-artist-result [artists]="artistList"></spot-artist-result>
   </md-tab>
 
-  <md-tab label="ARTISTS" *ngIf="artists | async">
-    <spot-artist-result></spot-artist-result>
+  <md-tab label="TRACKS" *ngIf="tracks | async as trackList">
+    <spot-track-result [tracks]="trackList"></spot-track-result>
   </md-tab>
 
-  <md-tab label="ALBUMS" *ngIf="albums | async">
-    <spot-album-result></spot-album-result>
+  <md-tab label="ALBUMS" *ngIf="albums | async as albumList">
+    <spot-album-result [albums]="albumList"></spot-album-result>
   </md-tab>
 </md-tab-group>

@@ -1,0 +1,31 @@
+.image-wrapper {
+  width: 100%;
+  padding-bottom: 100%;
+  height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+}
+
+.name {
+  color: #fff;
+  text-align: center;
+}
+
+.artists {
+  text-align: center;
+}
+
+.artist:after {
+  content: ", ";
+}
+
+.artist:last-of-type:after {
+  display: none;
+}

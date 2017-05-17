@@ -9,6 +9,15 @@ import {
 } from './result/artist-result/artist-result.component';
 import { ResultListComponent } from './result/result-list.component';
 import {
+  SimpleAlbumComponent,
+} from './result/simple-album/simple-album.component';
+import {
+  SimpleArtistComponent,
+} from './result/simple-artist/simple-artist.component';
+import {
+  SimpleTrackComponent,
+} from './result/simple-track/simple-track.component';
+import {
   TopResultComponent,
 } from './result/top-result/top-result.component';
 import {
@@ -30,6 +39,9 @@ import { SearchComponent } from './search.component';
     ArtistResultComponent,
     TrackResultComponent,
     TopResultComponent,
+    SimpleAlbumComponent,
+    SimpleTrackComponent,
+    SimpleArtistComponent,
   ],
 
   exports: [
@@ -38,6 +50,9 @@ import { SearchComponent } from './search.component';
     ArtistResultComponent,
     TrackResultComponent,
     TopResultComponent,
+    SimpleAlbumComponent,
+    SimpleTrackComponent,
+    SimpleArtistComponent,
   ],
 })
 export class SearchModule {

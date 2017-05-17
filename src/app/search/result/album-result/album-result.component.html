@@ -1,1 +1,7 @@
-{{albums|async|json}}
+<section class="albums">
+  <spot-simple-album
+    *ngFor="let album of albums"
+    [album]="album"
+    class="album"
+  ></spot-simple-album>
+</section>

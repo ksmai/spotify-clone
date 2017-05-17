@@ -1,0 +1,12 @@
+<md-list-item>
+  <span md-list-icon>{{idx}}.</span>
+  <h3 md-line>{{track.name}}</h3>
+  <h6 md-line>
+    <a href="#"
+      *ngFor="let artist of track.artists"
+      class="artist"
+    >{{artist.name}}</a>
+    <a href="#">{{track.album.name}}</a>
+  </h6>
+  <span>{{format(track.duration_ms)}}</span>
+</md-list-item>

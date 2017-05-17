@@ -1,0 +1,10 @@
+<div class="image-wrapper">
+  <img class="image" [src]="album.images[0]?.url" [alt]="album.name">
+</div>
+<h3 class="name">{{album.name}}</h3>
+<h6 class="artists">
+  <span class="light">By </span>
+  <a href="#" *ngFor="let artist of album.artists" class="artist">
+    {{artist.name}}
+  </a>
+</h6>
