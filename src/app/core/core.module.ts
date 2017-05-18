@@ -3,7 +3,6 @@ import { HttpModule } from '@angular/http';
 
 import { AlbumService } from './album.service';
 import { SearchService } from './search.service';
-import { TimeFormatter } from './time-formatter.service';
 
 @NgModule({
   imports: [
@@ -12,7 +11,6 @@ import { TimeFormatter } from './time-formatter.service';
 
   providers: [
     SearchService,
-    TimeFormatter,
     AlbumService,
   ],
 })

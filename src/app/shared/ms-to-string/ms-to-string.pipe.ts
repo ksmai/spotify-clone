@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Injectable()
-export class TimeFormatter {
-  msToString(ms: number, showMS = false): string {
+@Pipe({
+  name: 'spotMSToString',
+})
+export class MSToStringPipe implements PipeTransform {
+  transform(ms: number, showMS = false): string {
     const h = Math.floor(ms / 1000 / 3600);
     const m = Math.floor(Math.floor(ms / 1000) % 3600 / 60);
     const s = Math.floor(ms / 1000) % 60;
