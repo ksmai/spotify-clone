@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Artist } from '../../../../data-models/artist';
+import { Artist } from '../../../data-models/artist';
 
 @Component({
   selector: 'spot-simple-artist',

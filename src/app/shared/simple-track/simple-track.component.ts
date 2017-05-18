@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { Track } from '../../../../data-models/track';
-import { TimeFormatter } from '../../../core/time-formatter.service';
+import { Track } from '../../../data-models/track';
+import { TimeFormatter } from '../../core/time-formatter.service';
 
 @Component({
   selector: 'spot-simple-track',

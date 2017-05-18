@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { SimplifiedAlbum } from '../../../../data-models/simplified-album';
+import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 
 @Component({
   selector: 'spot-simple-album',

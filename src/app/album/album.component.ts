@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import 'rxjs/add/operator/pluck';
 import { Observable } from 'rxjs/Observable';
 
 import { Album } from '../../data-models/album';
@@ -15,7 +16,6 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.album = this.route.data
-      .map((data: { album: Album }) => data.album);
+    this.album = this.route.data.pluck('album');
   }
 }

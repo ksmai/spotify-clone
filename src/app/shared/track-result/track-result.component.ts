@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Track } from '../../../../data-models/track';
+import { Track } from '../../../data-models/track';
 
 @Component({
   selector: 'spot-track-result',
