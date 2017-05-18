@@ -4,7 +4,9 @@
 <h3 class="name">{{album.name}}</h3>
 <h6 class="artists">
   <span class="light">By </span>
-  <a href="#" *ngFor="let artist of album.artists" class="artist">
-    {{artist.name}}
-  </a>
+  <a
+    *ngFor="let artist of album.artists"
+    class="artist"
+    [routerLink]="['/artist', artist.id]"
+  >{{artist.name}}</a>
 </h6>

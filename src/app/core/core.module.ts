@@ -2,6 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { AlbumService } from './album.service';
+import { ArtistService } from './artist.service';
 import { SearchService } from './search.service';
 
 @NgModule({
@@ -12,6 +13,7 @@ import { SearchService } from './search.service';
   providers: [
     SearchService,
     AlbumService,
+    ArtistService,
   ],
 })
 export class CoreModule {

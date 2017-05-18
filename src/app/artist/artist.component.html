@@ -1,1 +1,32 @@
-ArtistComponent
+<section *ngIf="artist|async as me">
+  <img [src]="me?.images[0]?.url" [alt]="me.name">
+  <span>{{me.followers.total}} FOLLOWERS</span>
+</section>
+
+<md-tab-group>
+  <md-tab label="OVERVIEW">
+    <section class="popular" *ngIf="tracks|async as trackList">
+      <h3>Popular</h3>
+      <spot-track-result [tracks]="trackList"></spot-track-result>
+    </section>
+
+    <section class="albums" *ngIf="albums|async as albumList">
+      <h3>Albums</h3>
+      <spot-album-result [albums]="albumList"></spot-album-result>
+    </section>
+
+    <section class="singles" *ngIf="singles|async as singleList">
+      <h3>Singles</h3>
+      <spot-album-result [albums]="singleList"></spot-album-result>
+    </section>
+
+    <section class="compilations" *ngIf="compilations|async as compList">
+      <h3>Compilations</h3>
+      <spot-album-result [albums]="compList"></spot-album-result>
+    </section>
+  </md-tab>
+
+  <md-tab label="RELATED ARTISTS" *ngIf="artists|async as artistList">
+    <spot-artist-result [artists]="artistList"></spot-artist-result>
+  </md-tab>
+</md-tab-group>

@@ -1,4 +1,4 @@
-<div class="image-wrapper">
+<a class="image-wrapper" [routerLink]="['/artist', artist.id]">
   <img class="image" [src]="artist.images[0]?.url" [alt]="artist.name">
-</div>
+</a>
 <h3 class="name">{{artist.name}}</h3>
