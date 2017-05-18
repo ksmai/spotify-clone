@@ -1,7 +1,20 @@
-<a class="image-wrapper" [routerLink]="['/album', album.id]">
-  <img class="image" [src]="album.images[0]?.url" [alt]="album.name">
-</a>
-<h3 class="name">{{album.name}}</h3>
+<div class="image-wrapper">
+  <img
+    class="image"
+    [src]="album.images[0]?.url"
+    [alt]="album.name"
+    [routerLink]="['/album', album.id]"
+  >
+
+  <div class="overlay">
+    <button md-icon-button class="play" (click)="play()">
+      <md-icon>play_arrow</md-icon>
+    </button>
+  </div>
+</div>
+
+<a class="name" [routerLink]="['/album', album.id]">{{album.name}}</a>
+
 <h6 class="artists">
   <span class="light">By </span>
   <a

@@ -10,4 +10,8 @@ import { Track } from '../../../data-models/track';
 export class SimpleTrackComponent {
   @Input() idx: number;
   @Input() track: Track;
+
+  play(): void {
+    console.log('playing');
+  }
 }

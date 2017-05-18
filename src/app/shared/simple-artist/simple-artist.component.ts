@@ -9,4 +9,8 @@ import { Artist } from '../../../data-models/artist';
 })
 export class SimpleArtistComponent {
   @Input() artist: Artist;
+
+  play(): void {
+    console.log('playing');
+  }
 }

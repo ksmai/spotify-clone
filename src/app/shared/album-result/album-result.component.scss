@@ -1,8 +1,12 @@
 .albums {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
+  padding: 15px;
 }
 
 .album {
-  flex: 0 0 200px;
+  flex: 1 1 200px;
+  max-width: 250px;
+  margin: 15px;
 }

@@ -9,4 +9,8 @@ import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 })
 export class SimpleAlbumComponent {
   @Input() album: SimplifiedAlbum;
+
+  play(): void {
+    console.log('playing');
+  }
 }

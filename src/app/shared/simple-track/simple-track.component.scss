@@ -5,3 +5,36 @@
 .artist:last-child:after {
   display: none;
 }
+
+.play-button {
+  display: none;
+  text-align: left;
+}
+
+.play-icon {
+  font-size: 40px;
+}
+
+.track {
+  transition: background-color .15s ease-in-out;
+}
+
+:host(:hover) {
+  .track {
+    background-color: #212121;
+  }
+
+  .index {
+    display: none;
+  }
+
+  .play-button {
+    display: inline-block;
+  }
+}
+
+.list-icon[md-list-icon] {
+  width: 60px;
+  height: 40px;
+  text-align: right;
+}

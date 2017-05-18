@@ -1,5 +1,10 @@
-<md-list-item>
-  <span md-list-icon>{{idx}}.</span>
+<md-list-item class="track">
+  <div md-list-icon class="list-icon">
+    <span class="light index">{{idx}}.</span>
+    <button md-icon-button class="play-button" (click)="play()">
+      <md-icon class="play-icon">play_arrow</md-icon>
+    </button>
+  </div>
   <h3 md-line>{{track.name}}</h3>
   <h6 md-line>
     <a
@@ -11,5 +16,5 @@
       {{track.album.name}}
     </a>
   </h6>
-  <span>{{track.duration_ms|spotMSToString}}</span>
+  <span class="light">{{track.duration_ms|spotMSToString}}</span>
 </md-list-item>
