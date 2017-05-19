@@ -1,7 +1,10 @@
 <ng-container *ngIf="album | async as albumData">
   <section class="metadata clearfix">
-    <spot-simple-album [album]="albumData" class="album">
-    </spot-simple-album>
+    <spot-simple-album
+      [album]="albumData"
+      class="album"
+      (dominantColor)="updateBackground($event)"
+    ></spot-simple-album>
 
     <span class="count app-font">
       {{albumData.tracks.items.length}} SONGS

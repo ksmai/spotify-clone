@@ -1,9 +1,12 @@
 <div class="image-wrapper">
   <img
     class="image"
+    [crossOrigin]="'anonymous'"
     [src]="album.images[0]?.url"
     [alt]="album.name"
     [routerLink]="['/album', album.id]"
+    (load)="onLoad()"
+    #image
   >
 
   <div class="overlay">
