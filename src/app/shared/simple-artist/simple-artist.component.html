@@ -3,6 +3,7 @@
     class="image"
     [src]="artist.images[0]?.url"
     [alt]="artist.name"
+    (error)="artist.images = [{ url: placeholder }]"
     [routerLink]="['/artist', artist.id]"
   >
 

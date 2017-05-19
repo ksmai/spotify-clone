@@ -1,14 +1,28 @@
 <ng-container *ngIf="best|async as featured" [ngSwitch]="featured[0]?.type">
-  <spot-simple-album *ngSwitchCase="'album'" [album]="featured[0]">
-  </spot-simple-album>
+  <spot-simple-album
+    *ngSwitchCase="'album'"
+    [album]="featured[0]"
+    class="featured"
+  ></spot-simple-album>
 
-  <spot-simple-artist *ngSwitchCase="'artist'" [artist]="featured[0]">
-  </spot-simple-artist>
+  <spot-simple-artist
+    *ngSwitchCase="'artist'"
+    [artist]="featured[0]"
+    class="featured"
+  ></spot-simple-artist>
 
-  <spot-simple-album *ngSwitchCase="'track'" [album]="featured[0].album">
-  </spot-simple-album>
+  <spot-simple-album
+    *ngSwitchCase="'track'"
+    [album]="featured[0].album"
+    class="featured"
+  ></spot-simple-album>
 </ng-container>
 
-<spot-track-result [tracks]="tracks|async"></spot-track-result>
+<spot-track-result [tracks]="tracks|async" class="tracks">
+</spot-track-result>
+
+<h3 class="subheading" (click)="onSwitchTab('artists')">Artists</h3>
 <spot-artist-result [artists]="artists|async"></spot-artist-result>
+
+<h3 class="subheading" (click)="onSwitchTab('albums')">Albums</h3>
 <spot-album-result [albums]="albums|async"></spot-album-result>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +18,7 @@ export class TopResultComponent implements OnInit {
   artists: Observable<Artist[]>;
   albums: Observable<SimplifiedAlbum[]>;
   best: Observable<Array<Track|Artist|SimplifiedAlbum>>;
+  @Output() switchTab = new EventEmitter<string>();
 
   constructor(private searchService: SearchService) {
   }
@@ -27,6 +28,10 @@ export class TopResultComponent implements OnInit {
     this.artists = this.searchService.getArtists().let(this.first(8));
     this.albums = this.searchService.getAlbums().let(this.first(8));
     this.best = this.searchService.getBest();
+  }
+
+  onSwitchTab(tab: string): void {
+    this.switchTab.emit(tab);
   }
 
   private first(n: number) {

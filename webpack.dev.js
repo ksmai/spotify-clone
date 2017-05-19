@@ -29,7 +29,15 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: 'raw-loader',
+        use: {
+          loader: 'html-loader',
+          options: {
+            minimize: true,
+            caseSensitive: true,
+            removeAttributeQuotes: false,
+            conservativeCollapse: false,
+          },
+        },
       },
       {
         test: /\.(?:sa|s?c)ss$/,

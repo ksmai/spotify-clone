@@ -9,6 +9,7 @@ import { Artist } from '../../../data-models/artist';
 })
 export class SimpleArtistComponent {
   @Input() artist: Artist;
+  placeholder = require('../../../../assets/placeholder-artist.jpg');
 
   play(): void {
     console.log('playing');

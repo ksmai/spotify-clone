@@ -17,8 +17,17 @@ export class ResultListComponent implements OnInit {
   tracks: Observable<Track[]>;
   best: Observable<Array<SimplifiedAlbum|Artist|Track>>;
   isLoading: Observable<boolean>;
+  selectedIndex: number;
 
   constructor(private searchService: SearchService) {
+  }
+
+  switchTab(label: string) {
+    if (label === 'artists') {
+      this.selectedIndex = 1;
+    } else if(label === 'albums') {
+      this.selectedIndex = 3;
+    }
   }
 
   ngOnInit() {

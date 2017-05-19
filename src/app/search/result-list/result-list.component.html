@@ -1,12 +1,12 @@
 <md-progress-bar *ngIf="isLoading | async" mode="indeterminate">
 </md-progress-bar>
 
-<md-tab-group>
+<md-tab-group [(selectedIndex)]="selectedIndex">
   <md-tab
     label="TOP RESULTS"
     *ngIf="best | async"
   >
-    <spot-top-result></spot-top-result>
+    <spot-top-result (switchTab)="switchTab($event)"></spot-top-result>
   </md-tab>
 
   <md-tab label="ARTISTS" *ngIf="artists | async as artistList">
