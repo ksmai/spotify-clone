@@ -9,7 +9,8 @@ import {
   ArtistResultComponent,
 } from './artist-result/artist-result.component';
 import { MaterialModule } from './material.module';
-import { MSToStringPipe } from './ms-to-string/ms-to-string.pipe';
+import { MSToStringPipe } from './pipes/ms-to-string.pipe';
+import { CopyrightPipe } from './pipes/copyright.pipe';
 import {
   SimpleAlbumComponent,
 } from './simple-album/simple-album.component';
@@ -38,6 +39,7 @@ import {
     SimpleTrackComponent,
     SimpleArtistComponent,
     MSToStringPipe,
+    CopyrightPipe,
   ],
 
   exports: [
@@ -50,6 +52,7 @@ import {
     SimpleTrackComponent,
     SimpleArtistComponent,
     MSToStringPipe,
+    CopyrightPipe,
   ],
 })
 export class SharedModule {

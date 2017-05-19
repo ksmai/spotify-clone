@@ -13,9 +13,11 @@
   </div>
 </div>
 
-<a class="name" [routerLink]="['/album', album.id]">{{album.name}}</a>
+<a class="name app-font" [routerLink]="['/album', album.id]">
+  {{album.name}}
+</a>
 
-<h6 class="artists">
+<h6 class="artists app-font">
   <span class="light">By </span>
   <a
     *ngFor="let artist of album.artists"

@@ -1,4 +1,25 @@
 <ng-container *ngIf="album | async as albumData">
-  <spot-simple-album [album]="albumData"></spot-simple-album>
-  <spot-track-result [tracks]="albumData.tracks.items"></spot-track-result>
+  <section class="metadata clearfix">
+    <spot-simple-album [album]="albumData" class="album">
+    </spot-simple-album>
+
+    <span class="count app-font">
+      {{albumData.tracks.items.length}} SONGS
+    </span>
+
+    <button
+      md-raised-button
+      color="primary"
+      class="play round-ripple"
+      (click)="play()"
+    >PLAY</button>
+  </section>
+
+  <spot-track-result [tracks]="albumData.tracks.items" class="tracks">
+  </spot-track-result>
+
+  <h6
+    class="copyright light app-font"
+    *ngFor="let copyright of albumData.copyrights"
+  >{{copyright.text|spotCopyright}}</h6>
 </ng-container>

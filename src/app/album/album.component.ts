@@ -18,4 +18,8 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
     this.album = this.route.data.pluck('album');
   }
+
+  play(): void {
+    console.log('playing');
+  }
 }
