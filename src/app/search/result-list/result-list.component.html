@@ -11,13 +11,16 @@
 
   <md-tab label="ARTISTS" *ngIf="artists | async as artistList">
     <spot-artist-result [artists]="artistList"></spot-artist-result>
+    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
   </md-tab>
 
   <md-tab label="TRACKS" *ngIf="tracks | async as trackList">
     <spot-track-result [tracks]="trackList"></spot-track-result>
+    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
   </md-tab>
 
   <md-tab label="ALBUMS" *ngIf="albums | async as albumList">
     <spot-album-result [albums]="albumList"></spot-album-result>
+    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
   </md-tab>
 </md-tab-group>

@@ -29,6 +29,9 @@ export class SearchService {
   private results: Observable<SearchResult>;
   private isLoading: BehaviorSubject<boolean>;
   private isEnded: BehaviorSubject<boolean>;
+  private hasNextAlbums: boolean;
+  private hasNextArtists: boolean;
+  private hasNextTracks: boolean;
 
   constructor(private http: Http) {
     this.isLoading = new BehaviorSubject(false);
@@ -43,8 +46,8 @@ export class SearchService {
       .do(() => this.isEnded.next(true));
 
     this.results = this.queries
-      .combineLatest(pages)
       .debounceTime(300)
+      .combineLatest(pages)
       .distinctUntilChanged()
       .do(() => this.isLoading.next(true))
       .switchMap(([query, page]: [string, number]) => query ?
@@ -56,7 +59,12 @@ export class SearchService {
             return !results[key] || !results[key].next;
           });
         this.isEnded.next(isEnded);
-        this.isLoading.next(false);
+      })
+      .do(() => this.isLoading.next(false))
+      .do((results: SearchResult) => {
+        this.hasNextTracks = !!(results.tracks && results.tracks.next);
+        this.hasNextAlbums = !!(results.albums && results.albums.next);
+        this.hasNextArtists = !!(results.artists && results.artists.next);
       })
       .scan((results, currentResults) => {
         if (results.query === currentResults.query) {
@@ -76,6 +84,11 @@ export class SearchService {
 
   nextQuery(q: string): SearchService {
     this.queries.next(q);
+    this.isEnded.next(false);
+    this.isLoading.next(false);
+    this.hasNextAlbums = false;
+    this.hasNextArtists = false;
+    this.hasNextTracks = false;
     this.nextPage(0);
 
     return this;
@@ -87,6 +100,18 @@ export class SearchService {
     }
 
     return this;
+  }
+
+  nextAlbums(): SearchService {
+    return this.hasNextAlbums ? this.nextPage() : this;
+  }
+
+  nextTracks(): SearchService {
+    return this.hasNextTracks ? this.nextPage() : this;
+  }
+
+  nextArtists(): SearchService {
+    return this.hasNextArtists ? this.nextPage() : this;
   }
 
   getResults(): Observable<SearchResult> {

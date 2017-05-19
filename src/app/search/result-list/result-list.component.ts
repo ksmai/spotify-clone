@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Artist } from '../../../data-models/artist';
@@ -36,5 +36,33 @@ export class ResultListComponent implements OnInit {
     this.tracks = this.searchService.getTracks();
     this.best = this.searchService.getBest();
     this.isLoading = this.searchService.getLoadingStatus();
+  }
+
+  @HostListener('window:scroll')
+  private onScroll(): void {
+    const bottom = window.scrollY + window.innerHeight;
+    const target = 0.9 * document.body.scrollHeight;
+    const toLoad = !!this.selectedIndex && bottom > target;
+
+    if (!toLoad) {
+      return;
+    }
+
+    switch (this.selectedIndex) {
+      case 1:
+        this.searchService.nextArtists();
+        break;
+
+      case 2:
+        this.searchService.nextTracks();
+        break;
+
+      case 3:
+        this.searchService.nextAlbums();
+        break;
+
+      default:
+        break;
+    }
   }
 }
