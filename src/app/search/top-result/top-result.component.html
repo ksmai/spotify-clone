@@ -21,8 +21,20 @@
 <spot-track-result [tracks]="tracks|async" class="tracks">
 </spot-track-result>
 
-<h3 class="subheading" (click)="onSwitchTab('artists')">Artists</h3>
-<spot-artist-result [artists]="artists|async"></spot-artist-result>
+<ng-container *ngIf="artists|async as artistList">
+  <h3
+    class="subheading"
+    (click)="onSwitchTab('artists')"
+    *ngIf="artistList.length"
+  >Artists</h3>
+  <spot-artist-result [artists]="artistList"></spot-artist-result>
+</ng-container>
 
-<h3 class="subheading" (click)="onSwitchTab('albums')">Albums</h3>
-<spot-album-result [albums]="albums|async"></spot-album-result>
+<ng-container *ngIf="albums|async as albumList">
+  <h3
+    class="subheading"
+    (click)="onSwitchTab('albums')"
+    *ngIf="albumList.length"
+  >Albums</h3>
+  <spot-album-result [albums]="albumList"></spot-album-result>
+</ng-container>

@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/let';
 
 import { Artist } from '../../../data-models/artist';
 import { SimplifiedAlbum } from '../../../data-models/simplified-album';
@@ -31,11 +32,15 @@ export class ResultListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.albums = this.searchService.getAlbums();
-    this.artists = this.searchService.getArtists();
-    this.tracks = this.searchService.getTracks();
+    this.albums = this.searchService.getAlbums().let(this.hasItem);
+    this.artists = this.searchService.getArtists().let(this.hasItem);
+    this.tracks = this.searchService.getTracks().let(this.hasItem);
     this.best = this.searchService.getBest();
     this.isLoading = this.searchService.getLoadingStatus();
+  }
+
+  private hasItem<T>(src: Observable<T[]>): Observable<T[]> {
+    return src.map((arr) => arr.length ? arr : null);
   }
 
   @HostListener('window:scroll')
