@@ -10,4 +10,76 @@
 .container {
   height: 90px;
   justify-content: center;
+
+  /deep/ md-toolbar-row {
+    justify-content: space-between;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  align-items: center;
+}
+
+.volume,
+.info {
+  flex: 1;
+  display: flex;
+}
+
+.volume {
+  justify-content: flex-end;
+}
+
+.buttons {
+  flex: 1;
+  display: flex;
+
+  .button {
+    transform: scale(.8);
+    margin-right: 8px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.button {
+  opacity: .5;
+  transition: all .15s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+
+}
+
+.buttons .play-button {
+  transform: scale(1.2);
+
+  &:hover {
+    transform: scale(1.8);
+  }
+}
+
+.time {
+  width: 100%;
+  display: flex;
+}
+
+.time-slider {
+  flex: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.current-time,
+.end-time {
+  display: inline-block;
+  line-height: 48px;
+  font-size: .7em;
+  opacity: .5;
 }

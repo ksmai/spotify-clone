@@ -11,6 +11,7 @@ import {
   MdSliderModule,
   MdTabsModule,
   MdToolbarModule,
+  MdTooltipModule,
 } from '@angular/material';
 
 const materialModules: any = [
@@ -25,6 +26,7 @@ const materialModules: any = [
   MdIconModule,
   MdListModule,
   MdProgressSpinnerModule,
+  MdTooltipModule,
 ];
 
 @NgModule({
