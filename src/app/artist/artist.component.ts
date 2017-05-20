@@ -41,7 +41,9 @@ export class ArtistComponent implements OnInit {
       .pluck('albums')
       .switchMap((albums: SimplifiedAlbum[]) => Observable.from(albums))
       .filter((album) => album.album_type === albumType)
-      .distinct((album) => album.name.replace(/\s*\(.*\)\s*/g, ''))
+      .distinct((album) => album.name
+        .replace(/\s*\(.*\)\s*/g, '')
+        .replace(/\s*\[.*\]\s*/g, ''))
       .scan((list, cur) => list.concat(cur), []);
   }
 }
