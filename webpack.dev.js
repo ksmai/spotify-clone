@@ -72,6 +72,10 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'polyfills',
+      minChunks: Infinity,
+    }),
     new HTMLPlugin({
       template: paths.index,
     }),
