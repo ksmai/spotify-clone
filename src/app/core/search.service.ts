@@ -46,9 +46,17 @@ export class SearchService {
       .do(() => this.isEnded.next(true));
 
     this.results = this.queries
-      .debounceTime(300)
-      .combineLatest(pages)
       .distinctUntilChanged()
+      .do(() => {
+        this.isEnded.next(false);
+        this.isLoading.next(false);
+        this.hasNextAlbums = false;
+        this.hasNextArtists = false;
+        this.hasNextTracks = false;
+        this.nextPage(0);
+      })
+      .combineLatest(pages)
+      .debounceTime(300)
       .do(() => this.isLoading.next(true))
       .switchMap(([query, page]: [string, number]) => query ?
         this.search(query, page) :
@@ -84,12 +92,6 @@ export class SearchService {
 
   nextQuery(q: string): SearchService {
     this.queries.next(q);
-    this.isEnded.next(false);
-    this.isLoading.next(false);
-    this.hasNextAlbums = false;
-    this.hasNextArtists = false;
-    this.hasNextTracks = false;
-    this.nextPage(0);
 
     return this;
   }

@@ -16,14 +16,21 @@ import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 })
 export class SimpleAlbumComponent {
   @Input() album: SimplifiedAlbum;
+  @Input() emitColor = false;
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
+
+  placeholder = require('../../../../assets/placeholder-album.png');
 
   play(): void {
     console.log('playing');
   }
 
   onLoad() {
+    if (!this.emitColor) {
+      return;
+    }
+
     const vibrant = new Vibrant(this.imageEl.nativeElement);
     vibrant
       .getPalette()
@@ -41,7 +48,8 @@ export class SimpleAlbumComponent {
 
           return dominantColor;
         }
-      });
+      })
+      .catch((err: any) => console.error('Vibrant error'));
   }
 
   // http://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
