@@ -23,6 +23,7 @@ import {
 import {
   TrackResultComponent,
 } from './track-result/track-result.component';
+import { SplitNumberPipe } from './pipes/split-number.pipe';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import {
     SimpleArtistComponent,
     MSToStringPipe,
     CopyrightPipe,
+    SplitNumberPipe,
   ],
 
   exports: [
@@ -53,6 +55,7 @@ import {
     SimpleArtistComponent,
     MSToStringPipe,
     CopyrightPipe,
+    SplitNumberPipe,
   ],
 })
 export class SharedModule {

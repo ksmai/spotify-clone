@@ -1,27 +1,42 @@
-<section *ngIf="artist|async as me">
-  <img [src]="me?.images[0]?.url" [alt]="me.name">
-  <span>{{me.followers.total}} FOLLOWERS</span>
+<section
+  *ngIf="artist|async as info"
+  class="info"
+>
+  <div
+    class="background"
+    [style.background-image]="'url(' + info?.images[0]?.url + ')'"
+  ></div>
+
+  <section class="detail">
+    <h5 class="light app-font follower">
+      {{info.followers.total | spotSplitNumber }} FOLLOWERS
+    </h5>
+    <h2 class="name app-font">{{info.name}}</h2>
+    <button md-raised-button color="primary" class="play round-ripple">
+      PLAY
+    </button>
+  </section>
 </section>
 
 <md-tab-group>
   <md-tab label="OVERVIEW">
     <section class="popular" *ngIf="tracks|async as trackList">
-      <h3>Popular</h3>
+      <h3 class="subheading">Popular</h3>
       <spot-track-result [tracks]="trackList"></spot-track-result>
     </section>
 
     <section class="albums" *ngIf="albums|async as albumList">
-      <h3>Albums</h3>
+      <h3 class="subheading">Albums</h3>
       <spot-album-result [albums]="albumList"></spot-album-result>
     </section>
 
     <section class="singles" *ngIf="singles|async as singleList">
-      <h3>Singles</h3>
+      <h3 class="subheading">Singles</h3>
       <spot-album-result [albums]="singleList"></spot-album-result>
     </section>
 
     <section class="compilations" *ngIf="compilations|async as compList">
-      <h3>Compilations</h3>
+      <h3 class="subheading">Compilations</h3>
       <spot-album-result [albums]="compList"></spot-album-result>
     </section>
   </md-tab>

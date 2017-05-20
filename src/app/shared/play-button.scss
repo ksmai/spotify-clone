@@ -1,0 +1,17 @@
+.play {
+  display: block;
+  color: #fff;
+  border-radius: 18px;
+  letter-spacing: 3px;
+  opacity: .9;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    opacity: 1;
+    transform: scale(.95);
+  }
+}

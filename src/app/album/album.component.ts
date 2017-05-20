@@ -7,10 +7,10 @@ import { Album } from '../../data-models/album';
 
 @Component({
   templateUrl: './album.component.html',
-  styleUrls: ['./album.component.scss'],
+  styleUrls: ['../shared/play-button.scss', './album.component.scss'],
 })
 export class AlbumComponent implements OnInit {
-  @HostBinding('style.background') background: string;
+  @HostBinding('style.background-image') background: string;
 
   album: Observable<Album>;
 
@@ -26,6 +26,6 @@ export class AlbumComponent implements OnInit {
   }
 
   updateBackground(color: string): void {
-    this.background = `linear-gradient(${color}, #111)`;
+    this.background = `linear-gradient(${color}, #212121)`;
   }
 }

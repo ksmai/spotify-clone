@@ -14,7 +14,7 @@ import { Track } from '../../data-models/track';
 
 @Component({
   templateUrl: './artist.component.html',
-  styleUrls: ['./artist.component.scss'],
+  styleUrls: ['../shared/play-button.scss', './artist.component.scss'],
 })
 export class ArtistComponent implements OnInit {
   albums: Observable<SimplifiedAlbum[]>;
