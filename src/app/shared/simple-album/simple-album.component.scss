@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+.image {
+  background-image: url("../../../../assets/placeholder-album.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: cover;
+}
+
 .name {
   color: #fff;
   text-align: center;

@@ -4,4 +4,10 @@
     [album]="album"
     class="album"
   ></spot-simple-album>
+
+  <!--
+    A number of empty elements to align the last row of orphan flex items
+    nicely. It is non-semantic but serves as a temporary workaround
+  -->
+  <span class="empty" *ngFor="let x of '0'.repeat(12).split('')"></span>
 </section>

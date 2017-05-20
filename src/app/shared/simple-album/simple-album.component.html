@@ -6,6 +6,7 @@
     [alt]="album.name"
     [routerLink]="['/album', album.id]"
     (load)="onLoad()"
+    (error)="album.images = [{ url: placeholder }]"
     #image
   >
 
@@ -20,7 +21,7 @@
   {{album.name}}
 </a>
 
-<h6 class="artists app-font">
+<h6 class="artists app-font" *ngIf="album?.artists?.length">
   <span class="light">By </span>
   <a
     *ngFor="let artist of album.artists"

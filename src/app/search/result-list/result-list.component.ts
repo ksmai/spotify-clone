@@ -40,7 +40,7 @@ export class ResultListComponent implements OnInit {
   }
 
   private hasItem<T>(src: Observable<T[]>): Observable<T[]> {
-    return src.map((arr) => arr.length ? arr : null);
+    return src.map((arr) => arr && arr.length ? arr : null);
   }
 
   @HostListener('window:scroll')
