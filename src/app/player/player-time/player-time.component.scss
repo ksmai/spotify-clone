@@ -1,0 +1,19 @@
+.slider {
+  flex: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+  filter: grayscale(100%);
+  transition: filter .15s ease-in-out
+}
+
+:host(:hover) .slider {
+  filter: none;
+}
+
+.current,
+.end {
+  display: inline-block;
+  line-height: 48px;
+  font-size: .7em;
+  opacity: .5;
+}

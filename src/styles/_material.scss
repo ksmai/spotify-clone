@@ -14,3 +14,13 @@
 .round-ripple .mat-button-ripple {
   border-radius: 18px;
 }
+
+md-slider.thumb-on-hover {
+  .mat-slider-thumb {
+    visibility: hidden;
+  }
+
+  &:hover .mat-slider-thumb {
+    visibility: visible;
+  }
+}

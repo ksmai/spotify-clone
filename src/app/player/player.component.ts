@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'spot-player',
@@ -9,11 +9,10 @@ export class PlayerComponent {
   @ViewChild('audio') audio: ElementRef;
 
   paused = true;
-  loop = false;
-  shuffle = false;
+  repeated = false;
+  shuffled = false;
   currentTimeMS = 0;
   durationMS = 0;
-  playbackFraction = 0;
   volume = 1;
   volumeBeforeMute = 1;
   src = 'https://p.scdn.co/mp3-preview/f0783f5eedabf52a2400602a3412c7ec3560ede0?cid=null';
@@ -26,25 +25,18 @@ export class PlayerComponent {
     this.audioEl.pause();
   }
 
-  mute(): void {
-    this.volumeBeforeMute = this.audioEl.volume;
-    this.audioEl.volume = 0;
+  seek(frac: number): void {
+    this.audioEl.currentTime = frac * this.audioEl.duration;
+    this.audioEl.play();
   }
 
-  unmute(): void {
-    this.audioEl.volume = this.volumeBeforeMute;
-  }
-
-  toggleRepeat(): void {
-    this.loop = !this.loop;
-  }
-
-  toggleShuffle(): void {
-    this.shuffle = !this.shuffle;
-  }
-
-  changeVolume(volume: number): void {
-    this.audioEl.volume = volume;
+  toggleMute(): void {
+    if (this.volume > 0) {
+      this.volumeBeforeMute = this.volume;
+      this.volume = 0;
+    } else {
+      this.volume = this.volumeBeforeMute;
+    }
   }
 
   onPlaying(): void {
@@ -55,26 +47,13 @@ export class PlayerComponent {
     this.paused = true;
   }
 
-  onSeek(val: number): void {
-    this.audioEl.currentTime = (val / 100) * this.audioEl.duration;
-    this.audioEl.play();
-  }
-
   onLoadedMetadata(): void {
     this.durationMS = this.audioEl.duration * 1000;
     this.onTimeUpdate();
-    this.onVolumeChange();
   }
 
   onTimeUpdate(): void {
     this.currentTimeMS = this.audioEl.currentTime * 1000;
-    this.playbackFraction = this.durationMS > 0 ?
-      this.currentTimeMS / this.durationMS :
-      0;
-  }
-
-  onVolumeChange(): void {
-    this.volume = this.audioEl.volume;
   }
 
   private get audioEl(): HTMLAudioElement {

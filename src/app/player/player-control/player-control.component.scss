@@ -1,0 +1,28 @@
+.button {
+  opacity: .5;
+  transition: all .15s ease-in-out;
+  transform: scale(.8);
+  margin-right: 8px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.button.active {
+  opacity: 1;
+}
+
+.play-button,
+.pause-button {
+  transform: scale(.9);
+  border: 2px solid #fff;
+
+  &:hover {
+    transform: scale(1);
+  }
+}

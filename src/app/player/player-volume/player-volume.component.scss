@@ -1,0 +1,18 @@
+.button {
+  opacity: .5;
+  transition: all .15s ease-in-out;
+  transform: scale(.8);
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.slider {
+  filter: grayscale(100%);
+  transition: filter .15s ease-in-out
+}
+
+:host(:hover) .slider {
+  filter: none;
+}

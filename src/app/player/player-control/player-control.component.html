@@ -1,0 +1,51 @@
+<button
+  md-icon-button
+  mdTooltip="Enable shuffle"
+  [mdTooltipShowDelay]="700"
+  class="button"
+  [class.active]="shuffled"
+  [color]="shuffled ? 'accent' : ''"
+  (click)="toggleShuffle()"
+><md-icon>shuffle</md-icon></button>
+
+<button
+  md-icon-button
+  mdTooltip="Previous"
+  [mdTooltipShowDelay]="700"
+  class="button"
+><md-icon>skip_previous</md-icon></button>
+
+<button
+  *ngIf="paused"
+  md-icon-button
+  mdTooltip="Play"
+  [mdTooltipShowDelay]="700"
+  class="play-button button"
+  (click)="onPlay()"
+><md-icon>play_arrow</md-icon></button>
+
+<button
+  *ngIf="!paused"
+  md-icon-button
+  mdTooltip="Pause"
+  [mdTooltipShowDelay]="700"
+  class="pause-button button"
+  (click)="onPause()"
+><md-icon>pause</md-icon></button>
+
+<button
+  md-icon-button
+  mdTooltip="Next"
+  [mdTooltipShowDelay]="700"
+  class="button"
+><md-icon>skip_next</md-icon></button>
+
+<button
+  md-icon-button
+  mdTooltip="Enable repeat"
+  [mdTooltipShowDelay]="700"
+  class="button"
+  (click)="toggleRepeat()"
+  [class.active]="repeated"
+  [color]="repeated ? 'accent' : ''"
+><md-icon>repeat</md-icon></button>

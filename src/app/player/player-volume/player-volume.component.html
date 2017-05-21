@@ -1,0 +1,22 @@
+<button
+  md-icon-button
+  class="button"
+  *ngIf="volume > 0; else muted"
+  (click)="toggleMute()"
+><md-icon>volume_up</md-icon></button>
+
+<ng-template #muted>
+  <button
+    md-icon-button
+    class="button"
+    (click)="toggleMute()"
+  ><md-icon>volume_off</md-icon></button>
+</ng-template>
+
+<md-slider
+  class="slider thumb-on-hover"
+  [max]="1"
+  [step]="0.1"
+  [value]="volume"
+  (change)="onVolumeChange($event.value)"
+></md-slider>
