@@ -124,6 +124,10 @@ module.exports = {
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'polyfills',
+      minChunks: Infinity,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       filename: 'manifest.[chunkhash].js',
       minChunks: Infinity,

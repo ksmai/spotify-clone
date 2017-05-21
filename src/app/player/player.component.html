@@ -8,6 +8,8 @@
       [(shuffled)]="shuffled"
       (play)="play()"
       (pause)="pause()"
+      (prev)="prev()"
+      (next)="next()"
     ></spot-player-control>
 
     <spot-player-time
@@ -34,5 +36,6 @@
   (pause)="onPause()"
   (loadedmetadata)="onLoadedMetadata()"
   (timeupdate)="onTimeUpdate()"
+  (ended)="onEnded()"
   autoplay
 ></audio>

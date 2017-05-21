@@ -13,6 +13,8 @@ export class PlayerControlComponent {
   @Output() repeatedChange = new EventEmitter<boolean>();
   @Output() play = new EventEmitter();
   @Output() pause = new EventEmitter();
+  @Output() prev = new EventEmitter();
+  @Output() next = new EventEmitter();
 
   onPlay(): void {
     this.play.emit();
@@ -20,6 +22,14 @@ export class PlayerControlComponent {
 
   onPause(): void {
     this.pause.emit();
+  }
+
+  onPrev(): void {
+    this.prev.emit();
+  }
+
+  onNext(): void {
+    this.next.emit();
   }
 
   toggleShuffle(): void {
