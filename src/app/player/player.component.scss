@@ -8,7 +8,7 @@
 }
 
 .container {
-  height: 90px;
+  height: 100px;
   justify-content: center;
 
   /deep/ md-toolbar-row {
@@ -45,6 +45,16 @@
       margin-right: 0;
     }
   }
+
+  .play-button,
+  .pause-button {
+    transform: scale(.9);
+    border: 2px solid #fff;
+
+    &:hover {
+      transform: scale(1);
+    }
+  }
 }
 
 .button {
@@ -54,15 +64,10 @@
   &:hover {
     opacity: 1;
   }
-
 }
 
-.buttons .play-button {
-  transform: scale(1.2);
-
-  &:hover {
-    transform: scale(1.8);
-  }
+.button.active {
+  opacity: 1;
 }
 
 .time {

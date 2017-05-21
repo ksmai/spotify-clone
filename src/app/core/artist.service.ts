@@ -46,9 +46,9 @@ export class ArtistService {
       .retry(5)
       .map((res: Response) => res.json() as PagingObject<SimplifiedAlbum>)
       .do((page) => this.next = page.next)
-      .map((page) => page.items)
-      .expand(() => this.next ? this.getNextAlbums() : Observable.empty())
-      .scan((acc, cur) => acc.concat(cur), [])
+      .map((page) => page.items as SimplifiedAlbum[])
+      .expand(() => this.next ? this.getNextAlbums() : Observable.empty() as Observable<SimplifiedAlbum[]>)
+      .scan((acc: SimplifiedAlbum[], cur) => acc.concat(cur), [])
       .catch(() => Observable.of([]));
   }
 
@@ -97,7 +97,7 @@ export class ArtistService {
       .retry(5)
       .map((res: Response) => res.json() as PagingObject<SimplifiedAlbum>)
       .do((page) => this.next = page.next)
-      .map((page) => page.items)
+      .map((page) => page.items as SimplifiedAlbum[])
       .catch(() => Observable.of([]));
   }
 }

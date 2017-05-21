@@ -5,34 +5,106 @@
 
   <section class="controls">
     <section class="buttons">
-      <button md-icon-button mdTooltip="Enable shuffle" [mdTooltipShowDelay]="700" class="button">
+      <button
+        md-icon-button mdTooltip="Enable shuffle"
+        [mdTooltipShowDelay]="700"
+        class="button"
+        [class.active]="shuffle"
+        (click)="toggleShuffle()"
+        [color]="shuffle ? 'accent' : ''"
+      >
         <md-icon>shuffle</md-icon>
       </button>
-      <button md-icon-button mdTooltip="Previous" [mdTooltipShowDelay]="700" class="button">
+
+      <button
+        md-icon-button
+        mdTooltip="Previous"
+        [mdTooltipShowDelay]="700"
+        class="button"
+      >
         <md-icon>skip_previous</md-icon>
       </button>
-      <button md-icon-button mdTooltip="Play" [mdTooltipShowDelay]="700" class="play-button button">
-        <md-icon>play_circle_outline</md-icon>
+
+      <button
+        md-icon-button
+        mdTooltip="Play"
+        [mdTooltipShowDelay]="700"
+        class="play-button button"
+        *ngIf="paused"
+        (click)="play()"
+      >
+        <md-icon>play_arrow</md-icon>
       </button>
-      <button md-icon-button mdTooltip="Next" [mdTooltipShowDelay]="700" class="button">
+
+      <button
+        md-icon-button
+        mdTooltip="Pause"
+        [mdTooltipShowDelay]="700"
+        class="pause-button button"
+        *ngIf="!paused"
+        (click)="pause()"
+      >
+        <md-icon>pause</md-icon>
+      </button>
+
+      <button
+        md-icon-button
+        mdTooltip="Next"
+        [mdTooltipShowDelay]="700"
+        class="button"
+      >
         <md-icon>skip_next</md-icon>
       </button>
-      <button md-icon-button mdTooltip="Repeat" [mdTooltipShowDelay]="700" class="button">
+
+      <button
+        md-icon-button
+        mdTooltip="Enable repeat"
+        [mdTooltipShowDelay]="700"
+        class="button"
+        (click)="toggleRepeat()"
+        [class.active]="loop"
+        [color]="loop ? 'accent' : ''"
+      >
         <md-icon>repeat</md-icon>
       </button>
     </section>
 
     <section class="time">
-      <span class="current-time">0:00</span>
-      <md-slider class="time-slider" [step]="0.1"></md-slider>
-      <span class="end-time">3:14</span>
+      <span class="current-time">{{currentTimeMS|spotMSToString}}</span>
+
+      <md-slider
+        class="time-slider"
+        [step]="0.1"
+        [value]="playbackFraction * 100"
+        (change)="onSeek($event.value)"
+      ></md-slider>
+
+      <span class="end-time">{{durationMS|spotMSToString}}</span>
     </section>
   </section>
 
   <section class="volume">
-    <button md-icon-button class="button">
+    <button md-icon-button class="button" *ngIf="volume > 0; else muted" (click)="mute()">
       <md-icon>volume_up</md-icon>
     </button>
-    <md-slider></md-slider>
+
+    <ng-template #muted>
+      <button md-icon-button class="button" (click)="unmute()">
+        <md-icon>volume_off</md-icon>
+      </button>
+    </ng-template>
+    <md-slider [max]="1" [step]="0.1" [value]="volume" (change)="changeVolume($event.value)"></md-slider>
   </section>
 </md-toolbar>
+
+<audio
+  #audio
+  [src]="src"
+  [loop]="loop"
+  (playing)="onPlaying()"
+  (pause)="onPause()"
+  (loadedmetadata)="onLoadedMetadata()"
+  (timeupdate)="onTimeUpdate()"
+  (volumechange)="onVolumeChange()"
+  autoplay
+></audio>
