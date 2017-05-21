@@ -1,5 +1,5 @@
 export class ImageObject {
-  height: number;
+  height?: number;
   url: string;
-  width: number;
+  width?: number;
 }

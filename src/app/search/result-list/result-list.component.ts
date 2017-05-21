@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, HostListener, OnInit } from '@angular/core';
 import 'rxjs/add/operator/let';
+import { Observable } from 'rxjs/Observable';
 
 import { Artist } from '../../../data-models/artist';
 import { SimplifiedAlbum } from '../../../data-models/simplified-album';
@@ -26,7 +26,7 @@ export class ResultListComponent implements OnInit {
   switchTab(label: string) {
     if (label === 'artists') {
       this.selectedIndex = 1;
-    } else if(label === 'albums') {
+    } else if (label === 'albums') {
       this.selectedIndex = 3;
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';

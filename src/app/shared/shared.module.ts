@@ -9,8 +9,9 @@ import {
   ArtistResultComponent,
 } from './artist-result/artist-result.component';
 import { MaterialModule } from './material.module';
-import { MSToStringPipe } from './pipes/ms-to-string.pipe';
 import { CopyrightPipe } from './pipes/copyright.pipe';
+import { MSToStringPipe } from './pipes/ms-to-string.pipe';
+import { SplitNumberPipe } from './pipes/split-number.pipe';
 import {
   SimpleAlbumComponent,
 } from './simple-album/simple-album.component';
@@ -23,7 +24,6 @@ import {
 import {
   TrackResultComponent,
 } from './track-result/track-result.component';
-import { SplitNumberPipe } from './pipes/split-number.pipe';
 
 @NgModule({
   imports: [

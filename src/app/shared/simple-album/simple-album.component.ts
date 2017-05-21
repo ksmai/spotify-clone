@@ -1,8 +1,8 @@
 import {
   Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
   ViewChild,
 } from '@angular/core';
 import Vibrant = require('node-vibrant');
@@ -15,12 +15,11 @@ import { SimplifiedAlbum } from '../../../data-models/simplified-album';
   styleUrls: ['./simple-album.component.scss'],
 })
 export class SimpleAlbumComponent {
+  placeholder = require('../../../../assets/placeholder-album.png');
   @Input() album: SimplifiedAlbum;
   @Input() emitColor = false;
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
-
-  placeholder = require('../../../../assets/placeholder-album.png');
 
   play(): void {
     console.log('playing');
