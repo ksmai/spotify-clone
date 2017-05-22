@@ -2,6 +2,8 @@
   <spot-simple-artist
     *ngFor="let artist of artists"
     [artist]="artist"
+    [matchArtist]="matchArtist(artist)"
+    [isPlaying]="isPlaying(artist)"
     class="artist"
   ></spot-simple-artist>
 

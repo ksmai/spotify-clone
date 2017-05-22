@@ -9,4 +9,14 @@ import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 })
 export class AlbumResultComponent {
   @Input() albums: SimplifiedAlbum[];
+  @Input() playingID: string;
+  @Input() paused: boolean;
+
+  matchAlbum(album: SimplifiedAlbum): boolean {
+    return album.id === this.playingID;
+  }
+
+  isPlaying(album: SimplifiedAlbum): boolean {
+    return !this.paused && this.matchAlbum(album);
+  }
 }

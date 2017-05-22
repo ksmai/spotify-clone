@@ -3,6 +3,8 @@
     *ngFor="let album of albums"
     [album]="album"
     class="album"
+    [matchAlbum]="matchAlbum(album)"
+    [isPlaying]="isPlaying(album)"
   ></spot-simple-album>
 
   <!--

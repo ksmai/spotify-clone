@@ -1,56 +1,94 @@
-<section
-  *ngIf="artist|async as info"
-  class="info"
->
-  <div
-    class="background"
-    [style.background-image]="'url(' + info?.images[0]?.url + ')'"
-  ></div>
+<ng-container *ngIf="artist|async as info">
+  <ng-container *ngIf="currentStatus|async as status">
+    <section class="info">
+      <div
+        class="background"
+        [style.background-image]="'url(' + info?.images[0]?.url + ')'"
+      ></div>
 
-  <section class="detail">
-    <h5 class="light app-font follower">
-      {{info.followers.total | spotSplitNumber }} FOLLOWERS
-    </h5>
+      <section class="detail">
+        <h5 class="light app-font follower">
+          {{info.followers.total | spotSplitNumber }} FOLLOWERS
+        </h5>
 
-    <h2 class="name app-font">{{info.name}}</h2>
+        <h2 class="name app-font">{{info.name}}</h2>
 
-    <button
-      *ngIf="tracks|async as trackList"
-      md-raised-button
-      color="primary"
-      class="play round-ripple"
-      (click)="play(trackList)"
-      [disabled]="!(playable|async)"
-    >PLAY</button>
-  </section>
-</section>
+        <button
+          *ngIf="isPlaying(info, status); else playButton"
+          md-raised-button
+          color="primary"
+          class="pause round-ripple"
+          (click)="pause()"
+        >PAUSE</button>
 
-<md-tab-group>
-  <md-tab label="OVERVIEW">
-    <section class="popular" *ngIf="tracks|async as trackList">
-      <h3 class="subheading">Popular</h3>
-
-      <spot-track-result [tracks]="trackList" [isPlaylist]="true">
-      </spot-track-result>
+        <ng-template #playButton>
+          <button
+            *ngIf="tracks|async as trackList"
+            md-raised-button
+            color="primary"
+            class="play round-ripple"
+            (click)="play(trackList, info, status)"
+            [disabled]="!(playable|async)"
+          >PLAY</button>
+        </ng-template>
+      </section>
     </section>
 
-    <section class="albums" *ngIf="albums|async as albumList">
-      <h3 class="subheading">Albums</h3>
-      <spot-album-result [albums]="albumList"></spot-album-result>
-    </section>
+    <md-tab-group>
+      <md-tab label="OVERVIEW">
+        <section class="popular" *ngIf="tracks|async as trackList">
+          <h3 class="subheading">Popular</h3>
 
-    <section class="singles" *ngIf="singles|async as singleList">
-      <h3 class="subheading">Singles</h3>
-      <spot-album-result [albums]="singleList"></spot-album-result>
-    </section>
+          <spot-track-result
+            [tracks]="trackList"
+            [isPlaylist]="true"
+            [paused]="status.paused"
+            [playingID]="matchArtist(info, status) ? status.track.id : null"
+          ></spot-track-result>
+        </section>
 
-    <section class="compilations" *ngIf="compilations|async as compList">
-      <h3 class="subheading">Compilations</h3>
-      <spot-album-result [albums]="compList"></spot-album-result>
-    </section>
-  </md-tab>
+        <section class="albums" *ngIf="albums|async as albumList">
+          <h3 class="subheading">Albums</h3>
 
-  <md-tab label="RELATED ARTISTS" *ngIf="artists|async as artistList">
-    <spot-artist-result [artists]="artistList"></spot-artist-result>
-  </md-tab>
-</md-tab-group>
+          <spot-album-result
+            [albums]="albumList"
+            [playingID]="status.type === 'album' ?
+              status.track.album.id : null"
+            [paused]="status.paused"
+          ></spot-album-result>
+        </section>
+
+        <section class="singles" *ngIf="singles|async as singleList">
+          <h3 class="subheading">Singles</h3>
+
+          <spot-album-result
+            [albums]="singleList"
+            [playingID]="status.type === 'album' ?
+              status.track.album.id : null"
+            [paused]="status.paused"
+          ></spot-album-result>
+        </section>
+
+        <section class="compilations" *ngIf="compilations|async as compList">
+          <h3 class="subheading">Compilations</h3>
+
+          <spot-album-result
+            [albums]="compList"
+            [playingID]="status.type === 'album' ?
+              status.track.album.id : null"
+            [paused]="status.paused"
+          ></spot-album-result>
+        </section>
+      </md-tab>
+
+      <md-tab label="RELATED ARTISTS" *ngIf="artists|async as artistList">
+        <spot-artist-result
+          [artists]="artistList"
+          [paused]="status.paused"
+          [playingArtists]="status.type === 'artist' ?
+            status.track.artists : null"
+        ></spot-artist-result>
+      </md-tab>
+    </md-tab-group>
+  </ng-container>
+</ng-container>

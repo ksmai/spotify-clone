@@ -10,6 +10,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
 import { Artist } from '../../data-models/artist';
+import { Playing } from '../../data-models/playing';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
 import { PlayerService } from '../core/player.service';
@@ -26,6 +27,7 @@ export class ArtistComponent implements OnInit {
   tracks: Observable<Track[]>;
   artist: Observable<Artist>;
   playable: Observable<boolean>;
+  currentStatus: Observable<Playing>;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,10 +44,29 @@ export class ArtistComponent implements OnInit {
     this.compilations = this.filterAlbums('compilation');
     this.playable = this.tracks
       .map((tracks: Track[]) => tracks.some((track) => !!track.preview_url));
+    this.currentStatus = this.playerService.getCurrentStatus();
   }
 
-  play(tracks: Track[]): void {
-    this.playerService.playTrackList(tracks, 'artist');
+  play(tracks: Track[], info: Artist, status: Playing): void {
+    if (this.matchArtist(info, status)) {
+      this.playerService.play();
+    } else {
+      this.playerService.playTrackList(tracks, 'artist');
+    }
+  }
+
+  pause(): void {
+    this.playerService.pause();
+  }
+
+  matchArtist(info: Artist, status: Playing) {
+    return status.type === 'artist' &&
+      !!status.track &&
+      status.track.artists.some((artist) => artist.id === info.id);
+  }
+
+  isPlaying(info: Artist, status: Playing) {
+    return !status.paused && this.matchArtist(info, status);
   }
 
   private filterAlbums(albumType: string): Observable<SimplifiedAlbum[]> {
