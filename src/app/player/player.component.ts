@@ -30,6 +30,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   tracks: Track[];
   currentTrack: Track;
   currentIndex: number;
+  shuffleMap: Array<{ prev: number, next: number }>;
   private subscription: Subscription;
 
   constructor(private playerService: PlayerService) {
@@ -47,6 +48,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
         this.currentIndex = 0;
         this.currentTrack = this.tracks[this.currentIndex];
         this.src = this.currentTrack.preview_url;
+        this.shuffleMap = null;
       });
 
     this.subscription.add(
@@ -73,8 +75,14 @@ export class PlayerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.currentIndex = (this.currentIndex - 1 + this.tracks.length) %
-      this.tracks.length;
+    // lazily generate the shuffle map
+    if (this.shuffled && !this.shuffleMap) {
+      this.generateShuffleMap();
+    }
+
+    this.currentIndex = this.shuffled ?
+      this.shuffleMap[this.currentIndex].prev :
+      (this.currentIndex - 1 + this.tracks.length) % this.tracks.length;
     this.currentTrack = this.tracks[this.currentIndex];
     this.src = this.currentTrack.preview_url;
   }
@@ -84,7 +92,14 @@ export class PlayerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.currentIndex = (this.currentIndex + 1) % this.tracks.length;
+    // lazily generate the shuffle map
+    if (this.shuffled && !this.shuffleMap) {
+      this.generateShuffleMap();
+    }
+
+    this.currentIndex = this.shuffled ?
+      this.shuffleMap[this.currentIndex].next :
+      (this.currentIndex + 1) % this.tracks.length;
     this.currentTrack = this.tracks[this.currentIndex];
     this.src = this.currentTrack.preview_url;
   }
@@ -120,8 +135,45 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.currentTimeMS = this.audioEl.currentTime * 1000;
   }
 
+  private generateShuffleMap(): void {
+    if (!this.tracks || this.shuffleMap) {
+      return;
+    }
+
+    const indexes = Array(this.tracks.length)
+      .fill(undefined)
+      .map((e: any, i: number) => i);
+
+    // a double linked list from the shuffled indexes
+    const nodes = this.shuffleArrayInPlace(indexes)
+      .map((el, idx, arr) => {
+        const prevIdx = (idx - 1 + arr.length) % arr.length;
+        const nextIdx = (idx + 1) % arr.length;
+
+        return {
+          cur: el,
+          prev: arr[prevIdx],
+          next: arr[nextIdx],
+        };
+      });
+
+    // sort the nodes in ascending order to create the map
+    this.shuffleMap = nodes.sort((a, b) => a.cur < b.cur ? -1 : 1);
+  }
+
+  private shuffleArrayInPlace<T>(arr: T[]): T[] {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(1 + Math.random() * i);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr;
+  }
+
   private play(): void {
-    this.audioEl.play();
+    if (this.src) {
+      this.audioEl.play();
+    }
   }
 
   private pause(): void {
