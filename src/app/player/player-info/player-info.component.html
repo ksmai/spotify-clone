@@ -1,1 +1,22 @@
-Some info here
+<section class="container" *ngIf="track">
+  <img
+    class="image"
+    [src]="track?.album?.images[0]?.url"
+    [alt]="track.album.name"
+    [routerLink]="['/album', track.album.id]"
+  >
+
+  <section class="info">
+    <a [routerLink]="['/album', track.album.id]" class="album">
+      {{track.name}}
+    </a>
+
+    <section class="artists">
+      <a
+        *ngFor="let artist of track.artists"
+        class="artist"
+        [routerLink]="['/artist', artist.id]"
+      >{{artist.name}}</a>
+    </section>
+  </section>
+</section>

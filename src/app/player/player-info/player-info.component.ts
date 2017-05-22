@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { Track } from '../../../data-models/track';
 
 @Component({
   selector: 'spot-player-info',
@@ -6,4 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./player-info.component.scss'],
 })
 export class PlayerInfoComponent {
+  @Input() track: Track;
 }

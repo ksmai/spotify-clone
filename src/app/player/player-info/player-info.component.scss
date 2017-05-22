@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+}
+
+.image {
+  height: 100%;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;;
+}
+
+.artist:after {
+  content: ", ";
+}
+
+.artist:last-child:after {
+  display: none;
+}
+
+.album,
+.artist {
+  font-size: .6em;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}
+
+.album {
+  opacity: 1;
+}

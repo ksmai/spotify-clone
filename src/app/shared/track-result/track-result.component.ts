@@ -17,7 +17,7 @@ export class TrackResultComponent {
 
   play(idx: number) {
     if (this.isPlaylist) {
-      this.playerService.playArtist(this.tracks, idx);
+      this.playerService.playTrackList(this.tracks, idx);
     } else {
     }
   }

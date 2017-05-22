@@ -38,16 +38,15 @@ export class PlayerService {
       .shareReplay(1);
   }
 
-
   playAlbum(album: Album) {
   }
 
-  playArtist(artist: Track[], idx?: number) {
+  playTrackList(trackList: Track[], idx?: number) {
     let tracks: Track[];
-    if (Array.isArray(artist)) {
+    if (Array.isArray(trackList)) {
       const orderedTracks: Track[] = idx ?
-        artist.slice(idx).concat(artist.slice(0, idx)) :
-        artist;
+        trackList.slice(idx).concat(trackList.slice(0, idx)) :
+        trackList;
       tracks = orderedTracks.filter(track => !!track.preview_url);
     }
 

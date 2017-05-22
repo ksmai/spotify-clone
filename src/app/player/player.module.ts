@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 import {
@@ -13,6 +14,7 @@ import { PlayerComponent } from './player.component';
 
 @NgModule({
   imports: [
+    RouterModule,
     SharedModule,
   ],
 
