@@ -25,12 +25,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
   currentTimeMS = 0;
   durationMS = 0;
   volume = 1;
-  volumeBeforeMute = 1;
   src: string;
-  tracks: Track[];
   currentTrack: Track;
-  currentIndex: number;
-  shuffleMap: Array<{ prev: number, next: number }>;
+
+  private tracks: Track[];
+  private currentIndex: number;
+  private shuffleMap: Array<{ prev: number, next: number }>;
+  private volumeBeforeMute = 1;
   private subscription: Subscription;
 
   constructor(private playerService: PlayerService) {
@@ -45,10 +46,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
         }
 
         this.tracks = tracks;
-        this.currentIndex = 0;
-        this.currentTrack = this.tracks[this.currentIndex];
-        this.src = this.currentTrack.preview_url;
         this.shuffleMap = null;
+        this.updateIndex(0);
       });
 
     this.subscription.add(
@@ -80,11 +79,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.generateShuffleMap();
     }
 
-    this.currentIndex = this.shuffled ?
+    const idx = this.shuffled ?
       this.shuffleMap[this.currentIndex].prev :
       (this.currentIndex - 1 + this.tracks.length) % this.tracks.length;
-    this.currentTrack = this.tracks[this.currentIndex];
-    this.src = this.currentTrack.preview_url;
+    this.updateIndex(idx);
   }
 
   next(): void {
@@ -97,11 +95,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.generateShuffleMap();
     }
 
-    this.currentIndex = this.shuffled ?
+    const idx = this.shuffled ?
       this.shuffleMap[this.currentIndex].next :
       (this.currentIndex + 1) % this.tracks.length;
-    this.currentTrack = this.tracks[this.currentIndex];
-    this.src = this.currentTrack.preview_url;
+    this.updateIndex(idx);
   }
 
   seek(frac: number): void {
@@ -178,6 +175,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   private pause(): void {
     this.audioEl.pause();
+  }
+
+  private updateIndex(idx: number): void {
+    this.currentIndex = idx;
+    this.currentTrack = this.tracks[this.currentIndex];
+    this.src = this.currentTrack.preview_url;
+    this.playerService.updateStatus({ track: this.currentTrack });
   }
 
   private get audioEl(): HTMLAudioElement {

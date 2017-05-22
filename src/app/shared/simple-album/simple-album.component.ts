@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   Output,
   ViewChild,
@@ -21,6 +22,8 @@ export class SimpleAlbumComponent {
   @Input() album: SimplifiedAlbum;
   @Input() isPlayable: boolean;
   @Input() emitColor = false;
+  @Input() matchAlbum: boolean;
+  @HostBinding('class.playing') @Input() isPlaying: boolean;
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
 
@@ -28,11 +31,17 @@ export class SimpleAlbumComponent {
   }
 
   play(): void {
-    if (this.isPlayable) {
+    if (this.matchAlbum) {
+      this.playerService.play();
+    } else if (this.isPlayable) {
       this.playerService.playAlbum(this.album as Album);
     } else {
       this.playerService.playAlbumWithID(this.album.id);
     }
+  }
+
+  pause(): void {
+    this.playerService.pause();
   }
 
   onLoad() {

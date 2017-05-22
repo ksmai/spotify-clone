@@ -5,6 +5,7 @@ import 'rxjs/add/operator/pluck';
 import { Observable } from 'rxjs/Observable';
 
 import { Album } from '../../data-models/album';
+import { Playing } from '../../data-models/playing';
 import { PlayerService } from '../core/player.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class AlbumComponent implements OnInit {
 
   album: Observable<Album>;
   playable: Observable<boolean>;
+  currentStatus: Observable<Playing>;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,10 +33,29 @@ export class AlbumComponent implements OnInit {
           return !!track.preview_url;
         });
       });
+    this.currentStatus = this.playerService.getCurrentStatus();
   }
 
-  play(album: Album): void {
-    this.playerService.playAlbum(album);
+  play(album: Album, currentStatus: Playing): void {
+    if (this.matchAlbum(album, currentStatus)) {
+      this.playerService.play();
+    } else {
+      this.playerService.playAlbum(album);
+    }
+  }
+
+  pause(): void {
+    this.playerService.pause();
+  }
+
+  isPlaying(album: Album, currentStatus: Playing): boolean {
+    return !currentStatus.paused && this.matchAlbum(album, currentStatus);
+  }
+
+  matchAlbum(album: Album, currentStatus: Playing): boolean {
+    return currentStatus.type === 'album' &&
+      !!currentStatus.track &&
+      currentStatus.track.album.id === album.id;
   }
 
   updateBackground(color: string): void {

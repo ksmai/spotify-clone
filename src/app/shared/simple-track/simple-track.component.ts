@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { Track } from '../../../data-models/track';
 
@@ -10,9 +16,16 @@ import { Track } from '../../../data-models/track';
 export class SimpleTrackComponent {
   @Input() idx: number;
   @Input() track: Track;
+  @Input() paused = false;
+  @HostBinding('class.playing') @Input() isPlaying = false;
   @Output() play = new EventEmitter();
+  @Output() pause = new EventEmitter();
 
   onPlay(): void {
     this.play.emit();
+  }
+
+  onPause(): void {
+    this.pause.emit();
   }
 }

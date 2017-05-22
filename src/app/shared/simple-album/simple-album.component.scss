@@ -57,6 +57,7 @@
   opacity: .7;
 }
 
+.pause,
 .play {
   pointer-events: initial;
   transform: scale(2);
@@ -79,5 +80,9 @@
 }
 
 :host(:hover) .overlay {
+  display: flex;
+}
+
+:host(.playing) .overlay {
   display: flex;
 }

@@ -13,17 +13,25 @@ export class TrackResultComponent {
   @Input() tracks: Track[];
   @Input() isPlaylist: boolean;
   @Input() album: Album;
+  @Input() playingID: string;
+  @Input() paused: boolean;
 
   constructor(private playerService: PlayerService) {
   }
 
   play(track: Track) {
-    if (this.isPlaylist) {
-      this.playerService.playTrackList(this.tracks, track.id);
+    if (this.playingID === track.id) {
+      this.playerService.play();
+    } else if (this.isPlaylist) {
+      this.playerService.playTrackList(this.tracks, 'artist', track.id);
     } else if (this.album) {
       this.playerService.playAlbum(this.album, track.id);
     } else {
       this.playerService.playAlbumWithID(track.album.id, track.id);
     }
+  }
+
+  pause() {
+    this.playerService.pause();
   }
 }

@@ -1,12 +1,36 @@
 <md-list-item class="track" [class.playable]="track.preview_url">
   <div md-list-icon class="list-icon">
-    <span class="light index">{{idx}}.</span>
-    <button md-icon-button class="play-button" (click)="onPlay()">
-      <md-icon class="play-icon">play_arrow</md-icon>
-    </button>
+    <md-icon class="icon-text" *ngIf="isPlaying; else index">
+      volume_up
+    </md-icon>
+
+    <ng-template #index>
+      <span class="light icon-text">{{idx}}.</span>
+    </ng-template>
+
+    <button
+      md-icon-button
+      class="icon-button"
+      (click)="onPause()"
+      *ngIf="!paused && isPlaying; else playButton"
+    ><md-icon class="icon-icon">pause</md-icon></button>
+
+    <ng-template #playButton>
+      <button
+        md-icon-button
+        class="icon-button"
+        (click)="onPlay()"
+        *ngIf="paused || !isPlaying"
+      ><md-icon class="icon-icon">play_arrow</md-icon></button>
+    </ng-template>
+
   </div>
 
-  <h3 md-line [class.light]="!track.preview_url">{{track.name}}</h3>
+  <h3
+    md-line
+    [class.light]="!track.preview_url"
+    class="name"
+  >{{track.name}}</h3>
 
   <h6 md-line>
     <a
@@ -14,10 +38,13 @@
       [routerLink]="['/artist', artist.id]"
       class="artist"
     >{{artist.name}}</a>
-    <a *ngIf="track.album" [routerLink]="['/album', track.album.id]">
-      {{track.album.name}}
-    </a>
+
+    <a
+      *ngIf="track.album"
+      [routerLink]="['/album', track.album.id]"
+      class="album"
+    >{{track.album.name}}</a>
   </h6>
 
-  <span class="light">{{track.duration_ms|spotMSToString}}</span>
+  <span class="light time">{{track.duration_ms|spotMSToString}}</span>
 </md-list-item>

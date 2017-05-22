@@ -6,12 +6,12 @@
   display: none;
 }
 
-.play-button {
+.icon-button {
   display: none;
   text-align: left;
 }
 
-.play-icon {
+.icon-icon {
   font-size: 40px;
 }
 
@@ -23,11 +23,11 @@
   .playable {
     background-color: rgba(0, 0, 0, .3);
 
-    .index {
+    .icon-text {
       display: none;
     }
 
-    .play-button {
+    .icon-button {
       display: inline-block;
     }
   }
@@ -37,4 +37,17 @@
   width: 60px;
   height: 40px;
   text-align: right;
+}
+
+$highlight-color: #b2ff59;
+:host(.playing) {
+  .icon-text,
+  .name,
+  .album,
+  .artist,
+  .icon-icon,
+  .time {
+    color: $highlight-color;
+    opacity: 1;
+  }
 }

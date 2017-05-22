@@ -11,9 +11,18 @@
   >
 
   <div class="overlay">
-    <button md-icon-button class="play" (click)="play()">
-      <md-icon>play_arrow</md-icon>
-    </button>
+    <button
+      md-icon-button
+      class="pause"
+      (click)="pause()"
+      *ngIf="isPlaying; else playButton"
+    ><md-icon>pause</md-icon></button>
+
+    <ng-template #playButton>
+      <button md-icon-button class="play" (click)="play()">
+        <md-icon>play_arrow</md-icon>
+      </button>
+    </ng-template>
   </div>
 </div>
 

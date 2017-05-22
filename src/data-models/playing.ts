@@ -1,5 +1,7 @@
+import { Track } from './track';
+
 export class Playing {
-  id: string;
+  track: Track;
   type: string;
   paused: boolean;
 }

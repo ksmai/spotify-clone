@@ -3,6 +3,9 @@
     *ngFor="let track of tracks; let idx = index"
     [track]="track"
     [idx]="idx + 1"
+    [paused]="paused"
     (play)="play(track)"
+    (pause)="pause()"
+    [isPlaying]="track.id === playingID"
   ></spot-simple-track>
 </md-list>

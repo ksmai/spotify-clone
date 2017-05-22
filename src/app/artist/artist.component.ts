@@ -45,7 +45,7 @@ export class ArtistComponent implements OnInit {
   }
 
   play(tracks: Track[]): void {
-    this.playerService.playTrackList(tracks);
+    this.playerService.playTrackList(tracks, 'artist');
   }
 
   private filterAlbums(albumType: string): Observable<SimplifiedAlbum[]> {

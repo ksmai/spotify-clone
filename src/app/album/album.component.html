@@ -1,35 +1,51 @@
 <ng-container *ngIf="album | async as albumData">
-  <section class="metadata clearfix">
-    <spot-simple-album
+  <ng-container *ngIf="currentStatus | async as status">
+    <section class="metadata clearfix">
+      <spot-simple-album
+        [album]="albumData"
+        [isPlayable]="true"
+        class="album"
+        (dominantColor)="updateBackground($event)"
+        [emitColor]="true"
+        [matchAlbum]="matchAlbum(albumData, status)"
+        [isPlaying]="isPlaying(albumData, status)"
+      ></spot-simple-album>
+
+      <span class="count app-font">
+        {{albumData.tracks.items.length}} SONGS
+      </span>
+
+      <button
+        *ngIf="isPlaying(albumData, status); else playBtn"
+        md-raised-button
+        color="primary"
+        class="pause round-ripple"
+        (click)="pause()"
+      >PAUSE</button>
+
+      <ng-template #playBtn>
+        <button
+          md-raised-button
+          color="primary"
+          class="play round-ripple"
+          [disabled]="!(playable|async)"
+          (click)="play(albumData, status)"
+        >PLAY</button>
+      </ng-template>
+    </section>
+
+    <spot-track-result
+      [playingID]="matchAlbum(albumData, status) && status.track.id || null"
+      [paused]="status.paused"
+      [tracks]="albumData.tracks.items"
       [album]="albumData"
-      [isPlayable]="true"
-      class="album"
-      (dominantColor)="updateBackground($event)"
-      [emitColor]="true"
-    ></spot-simple-album>
+      class="tracks"
+    >
+    </spot-track-result>
 
-    <span class="count app-font">
-      {{albumData.tracks.items.length}} SONGS
-    </span>
-
-    <button
-      md-raised-button
-      color="primary"
-      class="play round-ripple"
-      [disabled]="!(playable|async)"
-      (click)="play(albumData)"
-    >PLAY</button>
-  </section>
-
-  <spot-track-result
-    [tracks]="albumData.tracks.items"
-    [album]="albumData"
-    class="tracks"
-  >
-  </spot-track-result>
-
-  <h6
-    class="copyright light app-font"
-    *ngFor="let copyright of albumData.copyrights"
-  >{{copyright.text|spotCopyright}}</h6>
+    <h6
+      class="copyright light app-font"
+      *ngFor="let copyright of albumData.copyrights"
+    >{{copyright.text|spotCopyright}}</h6>
+  </ng-container>
 </ng-container>
