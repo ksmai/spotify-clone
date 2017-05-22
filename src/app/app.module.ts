@@ -11,7 +11,6 @@ import { ArtistModule } from './artist/artist.module';
 import { CoreModule } from './core/core.module';
 import { PlayerModule } from './player/player.module';
 import { SearchModule } from './search/search.module';
-import { TrackModule } from './track/track.module';
 
 import 'hammerjs';
 import '../styles/styles.scss';
@@ -24,7 +23,6 @@ import '../styles/styles.scss';
     AlbumModule,
     ArtistModule,
     SearchModule,
-    TrackModule,
     PlayerModule,
     AppRoutingModule,
   ],
