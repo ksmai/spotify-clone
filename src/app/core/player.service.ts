@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/shareReplay';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Album } from '../../data-models/album';
 import { Playing } from '../../data-models/playing';
 import { Track } from '../../data-models/track';
+import { AlbumService } from './album.service';
+import { ArtistService } from './artist.service';
 
 @Injectable()
 export class PlayerService {
@@ -18,7 +20,11 @@ export class PlayerService {
   private current: Observable<Playing>;
   private request: Subject<boolean>;
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    private albumService: AlbumService,
+    private artistService: ArtistService,
+  ) {
     // emit array of tracks to be played
     this.playlist = new BehaviorSubject<Track[]>([]);
 
@@ -38,18 +44,51 @@ export class PlayerService {
       .shareReplay(1);
   }
 
-  playAlbum(album: Album) {
+  // Transform the SimplifiedTrack[] in Album into Track[]
+  // and play the tracks with this.playTrackList
+  playAlbum(album: Album, trackID?: string) {
+    const tracks = album.tracks.items;
+    const metadata = Object.assign({}, album);
+    delete metadata.tracks;
+
+    const playableTracks = tracks.map((track) => Object.assign({}, track, {
+      album: metadata,
+    }) as Track);
+
+    this.playTrackList(playableTracks, trackID);
   }
 
-  playTrackList(trackList: Track[], idx?: number) {
-    let tracks: Track[];
-    if (Array.isArray(trackList)) {
-      const orderedTracks: Track[] = idx ?
-        trackList.slice(idx).concat(trackList.slice(0, idx)) :
-        trackList;
-      tracks = orderedTracks.filter(track => !!track.preview_url);
-    }
+  // query for the Album using AlbumService
+  // then play the Album with this.playAlbum
+  playAlbumWithID(id: string, trackID?: string) {
+    this.albumService
+      .getById(id)
+      .subscribe((album: Album) => {
+        if (!album) {
+          return;
+        }
 
+        this.playAlbum(album, trackID);
+      });
+  }
+
+  playArtistWithID(id: string) {
+    this.artistService
+      .getTopTracks(id)
+      .subscribe((tracks: Track[]) => {
+        this.playTrackList(tracks);
+      });
+  }
+
+  playTrackList(trackList: Track[], trackID?: string) {
+    const idx = trackID &&
+      trackList.findIndex((track) => track.id === trackID);
+
+    const orderedTracks: Track[] = idx && idx > 0 ?
+      trackList.slice(idx).concat(trackList.slice(0, idx)) :
+      trackList;
+
+    const tracks = orderedTracks.filter((track) => !!track.preview_url);
     if (tracks.length > 0) {
       this.playlist.next(tracks);
     }

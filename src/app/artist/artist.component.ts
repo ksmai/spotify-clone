@@ -41,7 +41,7 @@ export class ArtistComponent implements OnInit {
     this.singles = this.filterAlbums('single');
     this.compilations = this.filterAlbums('compilation');
     this.playable = this.tracks
-      .map((tracks: Track[]) => tracks.some(track => !!track.preview_url));
+      .map((tracks: Track[]) => tracks.some((track) => !!track.preview_url));
   }
 
   play(tracks: Track[]): void {

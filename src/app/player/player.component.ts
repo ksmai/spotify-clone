@@ -1,16 +1,16 @@
 import {
   Component,
   ElementRef,
-  ViewChild,
-  OnInit,
   OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
+import 'rxjs/add/operator/pluck';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/pluck';
 
-import { PlayerService } from '../core/player.service';
 import { Track } from '../../data-models/track';
+import { PlayerService } from '../core/player.service';
 
 @Component({
   selector: 'spot-player',
@@ -36,8 +36,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.src = 'https://p.scdn.co/mp3-preview/f0783f5eedabf52a2400602a3412c7ec3560ede0?cid=null';
-
     this.subscription = this.playerService
       .getPlaylist()
       .subscribe((tracks: Track[]) => {
@@ -60,7 +58,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
           } else {
             this.pause();
           }
-        })
+        }),
     );
   }
 
@@ -71,21 +69,24 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   prev(): void {
-    if (this.currentIndex > 0 && this.tracks.length > 0) {
-      this.currentIndex -= 1;
-      this.currentTrack = this.tracks[this.currentIndex];
-      this.src = this.currentTrack.preview_url;
-    } else {
-      this.seek(0);
+    if (!this.tracks || !this.tracks.length) {
+      return;
     }
+
+    this.currentIndex = (this.currentIndex - 1 + this.tracks.length) %
+      this.tracks.length;
+    this.currentTrack = this.tracks[this.currentIndex];
+    this.src = this.currentTrack.preview_url;
   }
 
   next(): void {
-    if (this.currentIndex < this.tracks.length - 1) {
-      this.currentIndex += 1;
-      this.currentTrack = this.tracks[this.currentIndex];
-      this.src = this.currentTrack.preview_url;
+    if (!this.tracks || !this.tracks.length) {
+      return;
     }
+
+    this.currentIndex = (this.currentIndex + 1) % this.tracks.length;
+    this.currentTrack = this.tracks[this.currentIndex];
+    this.src = this.currentTrack.preview_url;
   }
 
   seek(frac: number): void {

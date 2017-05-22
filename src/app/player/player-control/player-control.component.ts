@@ -2,11 +2,11 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
   OnInit,
+  Output,
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/pluck';
+import { Observable } from 'rxjs/Observable';
 
 import { PlayerService } from '../../core/player.service';
 

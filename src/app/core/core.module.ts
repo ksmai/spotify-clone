@@ -3,8 +3,8 @@ import { HttpModule } from '@angular/http';
 
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
-import { SearchService } from './search.service';
 import { PlayerService } from './player.service';
+import { SearchService } from './search.service';
 
 @NgModule({
   imports: [

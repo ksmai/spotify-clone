@@ -7,7 +7,9 @@ import {
 } from '@angular/core';
 import Vibrant = require('node-vibrant');
 
+import { Album } from '../../../data-models/album';
 import { SimplifiedAlbum } from '../../../data-models/simplified-album';
+import { PlayerService } from '../../core/player.service';
 
 @Component({
   selector: 'spot-simple-album',
@@ -17,12 +19,20 @@ import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 export class SimpleAlbumComponent {
   placeholder = require('../../../../assets/placeholder-album.png');
   @Input() album: SimplifiedAlbum;
+  @Input() isPlayable: boolean;
   @Input() emitColor = false;
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
 
+  constructor(private playerService: PlayerService) {
+  }
+
   play(): void {
-    console.log('playing');
+    if (this.isPlayable) {
+      this.playerService.playAlbum(this.album as Album);
+    } else {
+      this.playerService.playAlbumWithID(this.album.id);
+    }
   }
 
   onLoad() {
@@ -48,7 +58,10 @@ export class SimpleAlbumComponent {
           return dominantColor;
         }
       })
-      .catch((err: any) => console.error('Vibrant error'));
+      .catch((err: any) => {
+        // do something useful with the error
+        return null;
+      });
   }
 
   // http://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors

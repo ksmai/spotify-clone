@@ -2,6 +2,7 @@
   <section class="metadata clearfix">
     <spot-simple-album
       [album]="albumData"
+      [isPlayable]="true"
       class="album"
       (dominantColor)="updateBackground($event)"
       [emitColor]="true"
@@ -15,11 +16,16 @@
       md-raised-button
       color="primary"
       class="play round-ripple"
-      (click)="play()"
+      [disabled]="!(playable|async)"
+      (click)="play(albumData)"
     >PLAY</button>
   </section>
 
-  <spot-track-result [tracks]="albumData.tracks.items" class="tracks">
+  <spot-track-result
+    [tracks]="albumData.tracks.items"
+    [album]="albumData"
+    class="tracks"
+  >
   </spot-track-result>
 
   <h6
