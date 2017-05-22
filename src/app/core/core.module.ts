@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
 import { SearchService } from './search.service';
+import { PlayerService } from './player.service';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { SearchService } from './search.service';
     SearchService,
     AlbumService,
     ArtistService,
+    PlayerService,
   ],
 })
 export class CoreModule {

@@ -5,13 +5,17 @@
   letter-spacing: 3px;
   opacity: .9;
 
-  &:hover {
+  &:not([disabled]):hover {
     opacity: 1;
     transform: scale(1.05);
   }
 
-  &:active {
+  &:not([disabled]):active {
     opacity: 1;
     transform: scale(.95);
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 }

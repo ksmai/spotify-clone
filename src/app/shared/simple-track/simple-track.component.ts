@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Track } from '../../../data-models/track';
 
@@ -10,8 +10,9 @@ import { Track } from '../../../data-models/track';
 export class SimpleTrackComponent {
   @Input() idx: number;
   @Input() track: Track;
+  @Output() play = new EventEmitter();
 
-  play(): void {
-    console.log('playing');
+  onPlay(): void {
+    this.play.emit();
   }
 }

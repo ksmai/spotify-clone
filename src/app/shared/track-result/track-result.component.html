@@ -3,5 +3,6 @@
     *ngFor="let track of tracks; let idx = index"
     [track]="track"
     [idx]="idx + 1"
+    (play)="play(idx)"
   ></spot-simple-track>
 </md-list>

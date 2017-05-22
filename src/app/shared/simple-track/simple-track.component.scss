@@ -20,16 +20,16 @@
 }
 
 :host(:hover) {
-  .track {
+  .playable {
     background-color: rgba(0, 0, 0, .3);
-  }
 
-  .index {
-    display: none;
-  }
+    .index {
+      display: none;
+    }
 
-  .play-button {
-    display: inline-block;
+    .play-button {
+      display: inline-block;
+    }
   }
 }
 

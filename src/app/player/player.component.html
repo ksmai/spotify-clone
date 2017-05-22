@@ -3,11 +3,8 @@
 
   <section class="controls">
     <spot-player-control
-      [paused]="paused"
       [(repeated)]="repeated"
       [(shuffled)]="shuffled"
-      (play)="play()"
-      (pause)="pause()"
       (prev)="prev()"
       (next)="next()"
     ></spot-player-control>
@@ -36,6 +33,6 @@
   (pause)="onPause()"
   (loadedmetadata)="onLoadedMetadata()"
   (timeupdate)="onTimeUpdate()"
-  (ended)="onEnded()"
+  (ended)="next()"
   autoplay
 ></audio>

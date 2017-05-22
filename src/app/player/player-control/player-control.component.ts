@@ -1,27 +1,44 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/pluck';
+
+import { PlayerService } from '../../core/player.service';
 
 @Component({
   selector: 'spot-player-control',
   templateUrl: './player-control.component.html',
   styleUrls: ['./player-control.component.scss'],
 })
-export class PlayerControlComponent {
-  @Input() paused: boolean;
+export class PlayerControlComponent implements OnInit {
   @Input() shuffled: boolean;
   @Input() repeated: boolean;
   @Output() shuffledChange = new EventEmitter<boolean>();
   @Output() repeatedChange = new EventEmitter<boolean>();
-  @Output() play = new EventEmitter();
-  @Output() pause = new EventEmitter();
   @Output() prev = new EventEmitter();
   @Output() next = new EventEmitter();
+  paused: Observable<boolean>;
+
+  constructor(private playerService: PlayerService) {
+  }
+
+  ngOnInit() {
+    this.paused = this.playerService
+      .getCurrentStatus()
+      .pluck('paused');
+  }
 
   onPlay(): void {
-    this.play.emit();
+    this.playerService.play();
   }
 
   onPause(): void {
-    this.pause.emit();
+    this.playerService.pause();
   }
 
   onPrev(): void {

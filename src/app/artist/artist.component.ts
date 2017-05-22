@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/distinct';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/switchMap';
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { Artist } from '../../data-models/artist';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
+import { PlayerService } from '../core/player.service';
 
 @Component({
   templateUrl: './artist.component.html',
@@ -23,8 +25,12 @@ export class ArtistComponent implements OnInit {
   artists: Observable<Artist[]>;
   tracks: Observable<Track[]>;
   artist: Observable<Artist>;
+  playable: Observable<boolean>;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private playerService: PlayerService,
+  ) {
   }
 
   ngOnInit() {
@@ -34,6 +40,12 @@ export class ArtistComponent implements OnInit {
     this.albums = this.filterAlbums('album');
     this.singles = this.filterAlbums('single');
     this.compilations = this.filterAlbums('compilation');
+    this.playable = this.tracks
+      .map((tracks: Track[]) => tracks.some(track => !!track.preview_url));
+  }
+
+  play(tracks: Track[]): void {
+    this.playerService.playArtist(tracks);
   }
 
   private filterAlbums(albumType: string): Observable<SimplifiedAlbum[]> {

@@ -17,7 +17,7 @@
 ><md-icon>skip_previous</md-icon></button>
 
 <button
-  *ngIf="paused"
+  *ngIf="paused|async"
   md-icon-button
   mdTooltip="Play"
   [mdTooltipShowDelay]="700"
@@ -26,7 +26,7 @@
 ><md-icon>play_arrow</md-icon></button>
 
 <button
-  *ngIf="!paused"
+  *ngIf="!(paused|async)"
   md-icon-button
   mdTooltip="Pause"
   [mdTooltipShowDelay]="700"
