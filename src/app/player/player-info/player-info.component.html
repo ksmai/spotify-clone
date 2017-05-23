@@ -1,19 +1,19 @@
-<section class="container" *ngIf="track">
+<section class="container" *ngIf="currentStatus|async as status">
   <img
     class="image"
-    [src]="track?.album?.images[0]?.url"
-    [alt]="track.album.name"
-    [routerLink]="['/album', track.album.id]"
+    [src]="status.track.album.images[0]?.url"
+    [alt]="status.track.album.name"
+    [routerLink]="['/', status.context.type, status.context.id]"
   >
 
   <section class="info">
-    <a [routerLink]="['/album', track.album.id]" class="album">
-      {{track.name}}
+    <a [routerLink]="['/album', status.track.album.id]" class="album">
+      {{status.track.name}}
     </a>
 
     <section class="artists">
       <a
-        *ngFor="let artist of track.artists"
+        *ngFor="let artist of status.track.artists"
         class="artist"
         [routerLink]="['/artist', artist.id]"
       >{{artist.name}}</a>
