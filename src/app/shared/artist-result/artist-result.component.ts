@@ -9,12 +9,11 @@ import { Artist } from '../../../data-models/artist';
 })
 export class ArtistResultComponent {
   @Input() artists: Artist[];
-  @Input() playingArtists: Artist[];
+  @Input() playingID: string;
   @Input() paused: boolean;
 
   matchArtist(currentArtist: Artist): boolean {
-    return !!this.playingArtists &&
-      this.playingArtists.some((artist) => artist.id === currentArtist.id);
+    return this.playingID === currentArtist.id;
   }
 
   isPlaying(currentArtist: Artist): boolean {

@@ -34,8 +34,11 @@ export class PlayerService {
     // A subject holding updates about currently playing album/artist
     this.update = new BehaviorSubject<any>({
       track: null,
-      type: null,
       paused: true,
+      context: {
+        type: null,
+        id: null,
+      },
     });
 
     // Update the current state using new data from the subject 'update'
@@ -55,7 +58,11 @@ export class PlayerService {
       album: metadata,
     }) as Track);
 
-    this.playTrackList(playableTracks, 'album', trackID);
+    this.playTrackList(
+      playableTracks,
+      { type: 'album', id: album.id },
+      trackID,
+    );
   }
 
   // query for the Album using AlbumService
@@ -76,11 +83,15 @@ export class PlayerService {
     this.artistService
       .getTopTracks(id)
       .subscribe((tracks: Track[]) => {
-        this.playTrackList(tracks, 'artist');
+        this.playTrackList(tracks, { id, type: 'artist' });
       });
   }
 
-  playTrackList(trackList: Track[], type: string, trackID?: string) {
+  playTrackList(
+    trackList: Track[],
+    context: { type: string, id: string },
+    trackID?: string,
+  ) {
     const idx = trackID &&
       trackList.findIndex((track) => track.id === trackID);
 
@@ -91,7 +102,7 @@ export class PlayerService {
     const tracks = orderedTracks.filter((track) => !!track.preview_url);
     if (tracks.length > 0) {
       this.playlist.next(tracks);
-      this.updateStatus({ type });
+      this.updateStatus({ context });
     }
   }
 

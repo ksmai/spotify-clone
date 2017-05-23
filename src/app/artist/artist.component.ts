@@ -51,7 +51,10 @@ export class ArtistComponent implements OnInit {
     if (this.matchArtist(info, status)) {
       this.playerService.play();
     } else {
-      this.playerService.playTrackList(tracks, 'artist');
+      this.playerService.playTrackList(
+        tracks,
+        { type: 'artist', id: info.id },
+      );
     }
   }
 
@@ -60,9 +63,9 @@ export class ArtistComponent implements OnInit {
   }
 
   matchArtist(info: Artist, status: Playing) {
-    return status.type === 'artist' &&
+    return status.context.type === 'artist' &&
       !!status.track &&
-      status.track.artists.some((artist) => artist.id === info.id);
+      status.context.id === info.id;
   }
 
   isPlaying(info: Artist, status: Playing) {

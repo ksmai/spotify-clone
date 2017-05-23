@@ -11,7 +11,7 @@ import { PlayerService } from '../../core/player.service';
 })
 export class TrackResultComponent {
   @Input() tracks: Track[];
-  @Input() isPlaylist: boolean;
+  @Input() artistID: string;
   @Input() album: Album;
   @Input() playingID: string;
   @Input() paused: boolean;
@@ -22,8 +22,12 @@ export class TrackResultComponent {
   play(track: Track) {
     if (this.playingID === track.id) {
       this.playerService.play();
-    } else if (this.isPlaylist) {
-      this.playerService.playTrackList(this.tracks, 'artist', track.id);
+    } else if (this.artistID) {
+      this.playerService.playTrackList(
+        this.tracks,
+        { type: 'artist', id: this.artistID },
+        track.id,
+      );
     } else if (this.album) {
       this.playerService.playAlbum(this.album, track.id);
     } else {

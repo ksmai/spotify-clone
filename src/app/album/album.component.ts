@@ -53,9 +53,9 @@ export class AlbumComponent implements OnInit {
   }
 
   matchAlbum(album: Album, currentStatus: Playing): boolean {
-    return currentStatus.type === 'album' &&
+    return currentStatus.context.type === 'album' &&
       !!currentStatus.track &&
-      currentStatus.track.album.id === album.id;
+      currentStatus.context.id === album.id;
   }
 
   updateBackground(color: string): void {

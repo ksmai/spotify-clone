@@ -41,7 +41,7 @@
 
           <spot-track-result
             [tracks]="trackList"
-            [isPlaylist]="true"
+            [artistID]="info.id"
             [paused]="status.paused"
             [playingID]="matchArtist(info, status) ? status.track.id : null"
           ></spot-track-result>
@@ -52,8 +52,8 @@
 
           <spot-album-result
             [albums]="albumList"
-            [playingID]="status.type === 'album' ?
-              status.track.album.id : null"
+            [playingID]="status.context.type === 'album' ?
+              status.context.id : null"
             [paused]="status.paused"
           ></spot-album-result>
         </section>
@@ -63,8 +63,8 @@
 
           <spot-album-result
             [albums]="singleList"
-            [playingID]="status.type === 'album' ?
-              status.track.album.id : null"
+            [playingID]="status.context.type === 'album' ?
+              status.context.id : null"
             [paused]="status.paused"
           ></spot-album-result>
         </section>
@@ -74,8 +74,8 @@
 
           <spot-album-result
             [albums]="compList"
-            [playingID]="status.type === 'album' ?
-              status.track.album.id : null"
+            [playingID]="status.context.type === 'album' ?
+              status.context.id : null"
             [paused]="status.paused"
           ></spot-album-result>
         </section>
@@ -85,8 +85,8 @@
         <spot-artist-result
           [artists]="artistList"
           [paused]="status.paused"
-          [playingArtists]="status.type === 'artist' ?
-            status.track.artists : null"
+          [playingID]="status.context.type === 'artist' ?
+            status.context.id : null"
         ></spot-artist-result>
       </md-tab>
     </md-tab-group>
