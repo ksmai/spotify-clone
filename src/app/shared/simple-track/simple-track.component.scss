@@ -43,8 +43,6 @@ $highlight-color: #b2ff59;
 :host(.playing) {
   .icon-text,
   .name,
-  .album,
-  .artist,
   .icon-icon,
   .time {
     color: $highlight-color;

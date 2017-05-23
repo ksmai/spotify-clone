@@ -5,8 +5,7 @@
 }
 
 .metadata {
-  margin: 32px 32px 0;
-  padding-bottom: 32px;
+  padding: 32px;
   border-bottom: 1px solid rgba(#fff, .2);
 }
 
@@ -70,14 +69,14 @@
 @media (min-width: 769px) {
   .metadata {
     display: inline-block;
-    width: 30%;
+    width: 35%;
     vertical-align: top;
     border-bottom: none;
   }
 
   .tracks {
     display: inline-block;
-    width: calc(70% - 80px);
+    width: calc(65% - 16px);
   }
 
   .count {
