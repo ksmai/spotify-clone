@@ -3,8 +3,10 @@ import 'rxjs/add/operator/let';
 import { Observable } from 'rxjs/Observable';
 
 import { Artist } from '../../../data-models/artist';
+import { Playing } from '../../../data-models/playing';
 import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 import { Track } from '../../../data-models/track';
+import { PlayerService } from '../../core/player.service';
 import { SearchService } from '../../core/search.service';
 
 @Component({
@@ -19,8 +21,12 @@ export class ResultListComponent implements OnInit {
   best: Observable<Array<SimplifiedAlbum|Artist|Track>>;
   isLoading: Observable<boolean>;
   selectedIndex: number;
+  currentStatus: Observable<Playing>;
 
-  constructor(private searchService: SearchService) {
+  constructor(
+    private searchService: SearchService,
+    private playerService: PlayerService,
+  ) {
   }
 
   switchTab(label: string) {
@@ -37,6 +43,19 @@ export class ResultListComponent implements OnInit {
     this.tracks = this.searchService.getTracks().let(this.hasItem);
     this.best = this.searchService.getBest();
     this.isLoading = this.searchService.getLoadingStatus();
+    this.currentStatus = this.playerService.getCurrentStatus();
+  }
+
+  playingArtistID(currentStatus: Playing): string {
+    return currentStatus.context.type === 'artist' ?
+      currentStatus.context.id :
+      null;
+  }
+
+  playingAlbumID(currentStatus: Playing): string {
+    return currentStatus.context.type === 'album' ?
+      currentStatus.context.id :
+      null;
   }
 
   private hasItem<T>(src: Observable<T[]>): Observable<T[]> {

@@ -43,7 +43,7 @@
             [tracks]="trackList"
             [artistID]="info.id"
             [paused]="status.paused"
-            [playingID]="matchArtist(info, status) ? status.track.id : null"
+            [playingID]="matchArtist(info, status) ? status.track?.id :null"
           ></spot-track-result>
         </section>
 

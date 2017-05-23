@@ -1,40 +1,65 @@
-<ng-container *ngIf="best|async as featured" [ngSwitch]="featured[0]?.type">
-  <spot-simple-album
-    *ngSwitchCase="'album'"
-    [album]="featured[0]"
-    class="featured"
-  ></spot-simple-album>
+<ng-container *ngIf="currentStatus|async as status">
+  <ng-container
+    *ngIf="best|async as featured"
+    [ngSwitch]="featured[0]?.type"
+  >
+    <spot-simple-album
+      *ngSwitchCase="'album'"
+      [album]="featured[0]"
+      [matchAlbum]="matchAlbum(featured[0], status)"
+      [isPlaying]="!status.paused && matchAlbum(featured[0], status)"
+      class="featured"
+    ></spot-simple-album>
 
-  <spot-simple-artist
-    *ngSwitchCase="'artist'"
-    [artist]="featured[0]"
-    class="featured"
-  ></spot-simple-artist>
+    <spot-simple-artist
+      *ngSwitchCase="'artist'"
+      [artist]="featured[0]"
+      [matchArtist]="matchArtist(featured[0], status)"
+      [isPlaying]="!status.paused && matchArtist(featured[0], status)"
+      class="featured"
+    ></spot-simple-artist>
 
-  <spot-simple-album
-    *ngSwitchCase="'track'"
-    [album]="featured[0].album"
-    class="featured"
-  ></spot-simple-album>
-</ng-container>
+    <spot-simple-album
+      *ngSwitchCase="'track'"
+      [album]="featured[0].album"
+      [matchAlbum]="matchAlbum(featured[0].album, status)"
+      [isPlaying]="!status.paused && matchAlbum(featured[0].album, status)"
+      class="featured"
+    ></spot-simple-album>
+  </ng-container>
 
-<spot-track-result [tracks]="tracks|async" class="tracks">
-</spot-track-result>
+  <spot-track-result
+    [tracks]="tracks|async"
+    class="tracks"
+    [playingID]="status.track?.id"
+    [paused]="status.paused"
+  ></spot-track-result>
 
-<ng-container *ngIf="artists|async as artistList">
-  <h3
-    class="subheading"
-    (click)="onSwitchTab('artists')"
-    *ngIf="artistList.length"
-  >Artists</h3>
-  <spot-artist-result [artists]="artistList"></spot-artist-result>
-</ng-container>
+  <ng-container *ngIf="artists|async as artistList">
+    <h3
+      class="subheading"
+      (click)="onSwitchTab('artists')"
+      *ngIf="artistList.length"
+    >Artists</h3>
 
-<ng-container *ngIf="albums|async as albumList">
-  <h3
-    class="subheading"
-    (click)="onSwitchTab('albums')"
-    *ngIf="albumList.length"
-  >Albums</h3>
-  <spot-album-result [albums]="albumList"></spot-album-result>
+    <spot-artist-result
+      [artists]="artistList"
+      [playingID]="playingArtistID(status)"
+      [paused]="status.paused"
+    ></spot-artist-result>
+  </ng-container>
+
+  <ng-container *ngIf="albums|async as albumList">
+    <h3
+      class="subheading"
+      (click)="onSwitchTab('albums')"
+      *ngIf="albumList.length"
+    >Albums</h3>
+
+    <spot-album-result
+      [albums]="albumList"
+      [playingID]="playingAlbumID(status)"
+      [paused]="status.paused"
+    ></spot-album-result>
+  </ng-container>
 </ng-container>

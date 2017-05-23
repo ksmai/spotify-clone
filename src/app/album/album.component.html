@@ -35,7 +35,7 @@
     </section>
 
     <spot-track-result
-      [playingID]="matchAlbum(albumData, status) && status.track.id || null"
+      [playingID]="matchAlbum(albumData, status) ? status.track?.id : null"
       [paused]="status.paused"
       [tracks]="albumData.tracks.items"
       [album]="albumData"

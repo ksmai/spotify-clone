@@ -1,26 +1,40 @@
 <md-progress-bar *ngIf="isLoading | async" mode="indeterminate">
 </md-progress-bar>
 
-<md-tab-group [(selectedIndex)]="selectedIndex">
-  <md-tab
-    label="TOP RESULTS"
-    *ngIf="best | async"
-  >
-    <spot-top-result (switchTab)="switchTab($event)"></spot-top-result>
-  </md-tab>
+<ng-container *ngIf="currentStatus|async as status">
+  <md-tab-group [(selectedIndex)]="selectedIndex">
+    <md-tab label="TOP RESULTS" *ngIf="best | async">
+      <spot-top-result (switchTab)="switchTab($event)"></spot-top-result>
+    </md-tab>
 
-  <md-tab label="ARTISTS" *ngIf="artists | async as artistList">
-    <spot-artist-result [artists]="artistList"></spot-artist-result>
-    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
-  </md-tab>
+    <md-tab label="ARTISTS" *ngIf="artists | async as artistList">
+      <spot-artist-result
+        [artists]="artistList"
+        [playingID]="playingArtistID(status)"
+        [paused]="status.paused"
+      ></spot-artist-result>
 
-  <md-tab label="TRACKS" *ngIf="tracks | async as trackList">
-    <spot-track-result [tracks]="trackList"></spot-track-result>
-    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
-  </md-tab>
+      <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
+    </md-tab>
 
-  <md-tab label="ALBUMS" *ngIf="albums | async as albumList">
-    <spot-album-result [albums]="albumList"></spot-album-result>
-    <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
-  </md-tab>
-</md-tab-group>
+    <md-tab label="TRACKS" *ngIf="tracks | async as trackList">
+      <spot-track-result
+        [tracks]="trackList"
+        [playingID]="status.track?.id"
+        [paused]="status.paused"
+      ></spot-track-result>
+
+      <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
+    </md-tab>
+
+    <md-tab label="ALBUMS" *ngIf="albums | async as albumList">
+      <spot-album-result
+        [albums]="albumList"
+        [playingID]="playingAlbumID(status)"
+        [paused]="status.paused"
+      ></spot-album-result>
+
+      <md-spinner *ngIf="isLoading|async" class="spinner"></md-spinner>
+    </md-tab>
+  </md-tab-group>
+</ng-container>
