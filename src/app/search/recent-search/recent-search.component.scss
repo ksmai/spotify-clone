@@ -1,0 +1,21 @@
+.link {
+  opacity: 1;
+}
+
+:host .link .type {
+  font-size: .7em;
+  font-weight: 600;
+  opacity: .3;
+  letter-spacing: .15em;
+}
+
+.link .name {
+  opacity: .5;
+  transition: opacity .15s cubic-bezier(.4, 0, .2, 1);
+  font-size: 2.5em;
+  font-weight: 900;
+}
+
+.link:hover .name {
+  opacity: 1;
+}

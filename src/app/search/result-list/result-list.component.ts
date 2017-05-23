@@ -66,10 +66,12 @@ export class ResultListComponent implements OnInit, OnDestroy {
     this.best = this.searchService.getBest();
     this.isLoading = this.searchService.getLoadingStatus();
     this.currentStatus = this.playerService.getCurrentStatus();
-    this.histories = this.searchHistoryService.getHistories();
+    this.histories = this.searchHistoryService
+      .getHistories()
+      .let(this.hasItem);
 
     this.subscription = this.best.subscribe(() => {
-      this.switchTab('top');
+      setTimeout(() => this.switchTab('top'), 0);
     });
   }
 

@@ -1,8 +1,11 @@
 <md-nav-list>
-  <md-list-item *ngFor="let record of histories">
-    <a [routerLink]="['/', record.type, record.id]" md-line>
-      {{record.name}}
-    </a>
-    <h6 md-line>{{record.type|uppercase}}</h6>
-  </md-list-item>
+  <a
+    [routerLink]="['/', record.type, record.id]"
+    md-list-item
+    *ngFor="let record of histories"
+    class="link"
+  >
+    <h3 md-line class="name light">{{record.name}}</h3>
+    <h6 md-line class="type">{{record.type|uppercase}}</h6>
+  </a>
 </md-list>

@@ -7,6 +7,7 @@ import { MarketService } from './market.service';
 import { PlayerService } from './player.service';
 import { SearchHistoryService } from './search-history.service';
 import { SearchService } from './search.service';
+import { StorageService } from './storage.service';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { SearchService } from './search.service';
     PlayerService,
     MarketService,
     SearchHistoryService,
+    StorageService,
   ],
 })
 export class CoreModule {
