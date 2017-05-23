@@ -6,11 +6,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import Vibrant = require('node-vibrant');
 
 import { Album } from '../../../data-models/album';
 import { SimplifiedAlbum } from '../../../data-models/simplified-album';
 import { PlayerService } from '../../core/player.service';
+import { SearchHistoryService } from '../../core/search-history.service';
 
 @Component({
   selector: 'spot-simple-album',
@@ -27,7 +29,11 @@ export class SimpleAlbumComponent {
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
 
-  constructor(private playerService: PlayerService) {
+  constructor(
+    private playerService: PlayerService,
+    private router: Router,
+    private searchHistoryService: SearchHistoryService,
+  ) {
   }
 
   play(): void {
@@ -42,6 +48,14 @@ export class SimpleAlbumComponent {
 
   pause(): void {
     this.playerService.pause();
+  }
+
+  view(): void {
+    if (this.router.routerState.snapshot.url === '/') {
+      this.searchHistoryService.nextResult(this.album);
+    }
+
+    this.router.navigate(['/album', this.album.id]);
   }
 
   onLoad() {

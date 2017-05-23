@@ -3,6 +3,10 @@
 
 <ng-container *ngIf="currentStatus|async as status">
   <md-tab-group [(selectedIndex)]="selectedIndex">
+    <md-tab label="RECENT SEARCHES" *ngIf="histories | async as recent">
+      <spot-recent-search [histories]="recent"></spot-recent-search>
+    </md-tab>
+
     <md-tab label="TOP RESULTS" *ngIf="best | async">
       <spot-top-result (switchTab)="switchTab($event)"></spot-top-result>
     </md-tab>

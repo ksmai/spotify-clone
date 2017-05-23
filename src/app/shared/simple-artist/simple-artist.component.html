@@ -4,7 +4,7 @@
     [src]="artist.images[0]?.url"
     [alt]="artist.name"
     (error)="artist.images = [{ url: placeholder }]"
-    [routerLink]="['/artist', artist.id]"
+    (click)="view()"
   >
 
   <div class="overlay">
@@ -23,4 +23,4 @@
   </div>
 </div>
 
-<a class="name" [routerLink]="['/artist', artist.id]">{{artist.name}}</a>
+<h3 class="name" (click)="view()">{{artist.name}}</h3>

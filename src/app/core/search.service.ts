@@ -93,7 +93,7 @@ export class SearchService {
   }
 
   nextQuery(q: string): SearchService {
-    if (/\w$/.test(q)) {
+    if (/.+\w$/.test(q)) {
       this.queries.next(`${q}*`); // add wildcard for better results
     } else {
       this.queries.next(q);

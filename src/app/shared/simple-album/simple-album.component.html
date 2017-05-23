@@ -4,7 +4,7 @@
     [crossOrigin]="'anonymous'"
     [src]="album.images[0]?.url"
     [alt]="album.name"
-    [routerLink]="['/album', album.id]"
+    (click)="view()"
     (load)="onLoad()"
     (error)="album.images = [{ url: placeholder }]"
     #image
@@ -26,9 +26,9 @@
   </div>
 </div>
 
-<a class="name app-font" [routerLink]="['/album', album.id]">
+<h3 class="name app-font" (click)="view()">
   {{album.name}}
-</a>
+</h3>
 
 <h6 class="artists app-font" *ngIf="album?.artists?.length">
   <span class="light">By </span>
