@@ -15,13 +15,13 @@ import { Artist } from '../../data-models/artist';
 import { PagingObject } from '../../data-models/paging-object';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
+import { MarketService } from './market.service';
 
 @Injectable()
 export class ArtistService {
   private next: string;
-  private countryCode: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private marketService: MarketService) {
   }
 
   getArtist(id: string): Observable<Artist> {
@@ -40,7 +40,8 @@ export class ArtistService {
     params.set('offset', '0');
     this.next = null;
 
-    return this.getCountryCode()
+    return this.marketService
+      .getCountryCode()
       .do((country) => params.set('market', country))
       .switchMap(() => this.http.get(url, { search: params }))
       .retry(5)
@@ -61,7 +62,8 @@ export class ArtistService {
   }
 
   getTopTracks(id: string): Observable<Track[]> {
-    return this.getCountryCode()
+    return this.marketService
+      .getCountryCode()
       .map((country) => {
         const params = new URLSearchParams();
         params.set('country', country);
@@ -76,19 +78,6 @@ export class ArtistService {
       .retry(5)
       .map((res: Response) => res.json().tracks as Track[])
       .catch(() => Observable.of([]));
-  }
-
-  private getCountryCode(): Observable<string> {
-    if (this.countryCode) {
-      return Observable.of(this.countryCode);
-    }
-
-    return this.http
-      .get('https://freegeoip.net/json/')
-      .map((res: Response) => res.json().country_code as string)
-      .do((country) => this.countryCode = country)
-      .retry(5)
-      .catch(() => Observable.of('US'));
   }
 
   private getNextAlbums(): Observable<SimplifiedAlbum[]> {

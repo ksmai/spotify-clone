@@ -8,9 +8,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/pluck';
+import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/scan';
-import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/switchMap';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -20,6 +20,7 @@ import { Artist } from '../../data-models/artist';
 import { SearchResult } from '../../data-models/search-result';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
+import { MarketService } from './market.service';
 
 @Injectable()
 export class SearchService {
@@ -33,7 +34,7 @@ export class SearchService {
   private hasNextArtists: boolean;
   private hasNextTracks: boolean;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private marketService: MarketService) {
     this.isLoading = new BehaviorSubject(false);
     this.isEnded = new BehaviorSubject(false);
     this.queries = new Subject<string>();
@@ -87,11 +88,16 @@ export class SearchService {
 
         return currentResults;
       }, this.emptyResult)
-      .shareReplay(1);
+      .publishReplay(1)
+      .refCount();
   }
 
   nextQuery(q: string): SearchService {
-    this.queries.next(q);
+    if (/\w$/.test(q)) {
+      this.queries.next(`${q}*`); // add wildcard for better results
+    } else {
+      this.queries.next(q);
+    }
 
     return this;
   }
@@ -165,11 +171,15 @@ export class SearchService {
     params.set('type', types.map((t) => t.trim()).join(','));
     params.set('best_match', String(true));
 
-    return this.http
-      .get(this.url, { search: params })
-      .retry(5)
-      .map((res: Response) => res.json() as SearchResult)
-      .map((result) => Object.assign(result, { query: q }))
-      .catch((err: any) => Observable.of({ query: q }));
+    return this.marketService
+      .getCountryCode()
+      .do((country: string) => params.set('market', country))
+      .switchMap(() => this.http
+        .get(this.url, { search: params })
+        .retry(5)
+        .map((res: Response) => res.json() as SearchResult)
+        .map((result) => Object.assign(result, { query: q }))
+        .catch((err: any) => Observable.of({ query: q })),
+      );
   }
 }

@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
+import { MarketService } from './market.service';
 import { PlayerService } from './player.service';
 import { SearchService } from './search.service';
 
@@ -16,6 +17,7 @@ import { SearchService } from './search.service';
     AlbumService,
     ArtistService,
     PlayerService,
+    MarketService,
   ],
 })
 export class CoreModule {
