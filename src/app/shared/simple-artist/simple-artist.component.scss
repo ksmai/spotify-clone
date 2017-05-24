@@ -73,3 +73,19 @@
 :host(.playing) .overlay {
   display: flex;
 }
+
+:host(.empty-artist) {
+  .image-wrapper:active,
+  .image-wrapper:focus {
+    transform: none;
+  }
+
+  .play {
+    display: none;
+  }
+
+  .image,
+  .overlay {
+    cursor: initial;
+  }
+}

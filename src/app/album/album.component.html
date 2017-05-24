@@ -9,6 +9,7 @@
         [emitColor]="true"
         [matchAlbum]="matchAlbum(albumData, status)"
         [isPlaying]="isPlaying(albumData, status)"
+        [isEmpty]="!(playable|async)"
       ></spot-simple-album>
 
       <span class="count app-font">

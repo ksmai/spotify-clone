@@ -25,6 +25,7 @@ export class SimpleAlbumComponent {
   @Input() isPlayable: boolean;
   @Input() emitColor = false;
   @Input() matchAlbum: boolean;
+  @HostBinding('class.empty-album') @Input() isEmpty: boolean;
   @HostBinding('class.playing') @Input() isPlaying: boolean;
   @Output() dominantColor = new EventEmitter<string>();
   @ViewChild('image') private imageEl: any;
@@ -37,13 +38,24 @@ export class SimpleAlbumComponent {
   }
 
   play(): void {
+    let player: Promise<boolean>;
     if (this.matchAlbum) {
       this.playerService.play();
+      player = Promise.resolve(true);
     } else if (this.isPlayable) {
-      this.playerService.playAlbum(this.album as Album);
+      player = this.playerService.playAlbum(this.album as Album);
     } else {
-      this.playerService.playAlbumWithID(this.album.id);
+      player = this.playerService.playAlbumWithID(this.album.id);
     }
+
+    player.then((success) => {
+      if (!success) {
+        this.isEmpty = true;
+        this.view();
+      }
+
+      return success;
+    });
   }
 
   pause(): void {

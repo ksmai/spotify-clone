@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -52,7 +54,7 @@ export class PlayerService {
 
   // Transform the SimplifiedTrack[] in Album into Track[]
   // and play the tracks with this.playTrackList
-  playAlbum(album: Album, trackID?: string) {
+  playAlbum(album: Album, trackID?: string): Promise<boolean> {
     const tracks = album.tracks.items;
     const metadata = Object.assign({}, album);
     delete metadata.tracks;
@@ -61,7 +63,7 @@ export class PlayerService {
       album: metadata,
     }) as Track);
 
-    this.playTrackList(
+    return this.playTrackList(
       playableTracks,
       { type: 'album', id: album.id },
       trackID,
@@ -70,31 +72,33 @@ export class PlayerService {
 
   // query for the Album using AlbumService
   // then play the Album with this.playAlbum
-  playAlbumWithID(id: string, trackID?: string) {
-    this.albumService
+  playAlbumWithID(id: string, trackID?: string): Promise<boolean> {
+    return this.albumService
       .getById(id)
-      .subscribe((album: Album) => {
+      .switchMap((album: Album) => {
         if (!album) {
-          return;
+          return Promise.resolve(false);
         }
 
-        this.playAlbum(album, trackID);
-      });
+        return this.playAlbum(album, trackID);
+      })
+      .toPromise();
   }
 
-  playArtistWithID(id: string) {
-    this.artistService
+  playArtistWithID(id: string): Promise<boolean> {
+    return this.artistService
       .getTopTracks(id)
-      .subscribe((tracks: Track[]) => {
-        this.playTrackList(tracks, { id, type: 'artist' });
-      });
+      .switchMap((tracks: Track[]) => {
+        return this.playTrackList(tracks, { id, type: 'artist' });
+      })
+      .toPromise();
   }
 
   playTrackList(
     trackList: Track[],
     context: { type: string, id: string },
     trackID?: string,
-  ) {
+  ): Promise<boolean> {
     const idx = trackID &&
       trackList.findIndex((track) => track.id === trackID);
 
@@ -107,6 +111,10 @@ export class PlayerService {
       this.playlist.next(tracks);
       this.updateStatus({ context });
       this.recordPlayHistory(tracks, context);
+
+      return Promise.resolve(true);
+    } else {
+      return Promise.resolve(false);
     }
   }
 

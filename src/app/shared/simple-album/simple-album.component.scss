@@ -87,3 +87,19 @@
 :host(.playing) .overlay {
   display: flex;
 }
+
+:host(.empty-album) {
+  .play {
+    display: none;
+  }
+
+  .overlay,
+  .image {
+    cursor: initial;
+  }
+
+  .image-wrapper:active,
+  .image-wrapper:focus {
+    transform: none;
+  }
+}

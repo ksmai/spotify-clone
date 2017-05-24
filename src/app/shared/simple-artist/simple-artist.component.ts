@@ -14,6 +14,7 @@ export class SimpleArtistComponent {
   @Input() artist: Artist;
   @Input() matchArtist: boolean;
   @HostBinding('class.playing') @Input() isPlaying: boolean;
+  @HostBinding('class.empty-artist') @Input() isEmpty: boolean;
   placeholder = require('../../../../assets/placeholder-artist.jpg');
 
   constructor(
@@ -24,11 +25,22 @@ export class SimpleArtistComponent {
   }
 
   play(): void {
+    let player: Promise<boolean>;
     if (this.matchArtist) {
       this.playerService.play();
+      player = Promise.resolve(true);
     } else {
-      this.playerService.playArtistWithID(this.artist.id);
+      player = this.playerService.playArtistWithID(this.artist.id);
     }
+
+    player.then((success) => {
+      if (!success) {
+        this.isEmpty = true;
+        this.view();
+      }
+
+      return success;
+    });
   }
 
   pause(): void {
