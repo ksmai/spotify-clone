@@ -169,7 +169,7 @@ export class SearchService {
     params.set('offset', String(page * limit));
     params.set('limit', String(limit));
     params.set('type', types.map((t) => t.trim()).join(','));
-    params.set('best_match', String(true));
+    params.set('best_match', String(page === 0));
 
     return this.marketService
       .getCountryCode()

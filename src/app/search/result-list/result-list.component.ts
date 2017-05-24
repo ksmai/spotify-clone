@@ -70,8 +70,10 @@ export class ResultListComponent implements OnInit, OnDestroy {
       .getHistories()
       .let(this.hasItem);
 
-    this.subscription = this.best.subscribe(() => {
-      setTimeout(() => this.switchTab('top'), 0);
+    this.subscription = this.best.subscribe((item) => {
+      if (!!item) {
+        setTimeout(() => this.switchTab('top'), 0);
+      }
     });
 
     // prevent switching tab to the left
@@ -117,16 +119,21 @@ export class ResultListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    switch (this.selectedIndex) {
-      case 1:
+    const activeTab = this.tabs && this.tabs.toArray()[this.selectedIndex];
+    if (!activeTab) {
+      return;
+    }
+
+    switch (activeTab.textLabel) {
+      case 'ARTISTS':
         this.searchService.nextArtists();
         break;
 
-      case 2:
+      case 'TRACKS':
         this.searchService.nextTracks();
         break;
 
-      case 3:
+      case 'ALBUMS':
         this.searchService.nextAlbums();
         break;
 
