@@ -11,6 +11,7 @@ import { ArtistModule } from './artist/artist.module';
 import { CoreModule } from './core/core.module';
 import { PlayerModule } from './player/player.module';
 import { SearchModule } from './search/search.module';
+import { SidenavModule } from './sidenav/sidenav.module';
 
 import 'hammerjs';
 import '../styles/styles.scss';
@@ -24,6 +25,7 @@ import '../styles/styles.scss';
     ArtistModule,
     SearchModule,
     PlayerModule,
+    SidenavModule,
     AppRoutingModule,
   ],
 

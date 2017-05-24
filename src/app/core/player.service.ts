@@ -9,9 +9,11 @@ import { Subject } from 'rxjs/Subject';
 
 import { Album } from '../../data-models/album';
 import { Playing } from '../../data-models/playing';
+import { SimplifiedArtist } from '../../data-models/simplified-artist';
 import { Track } from '../../data-models/track';
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
+import { PlayerHistoryService } from './player-history.service';
 
 @Injectable()
 export class PlayerService {
@@ -24,6 +26,7 @@ export class PlayerService {
     private http: Http,
     private albumService: AlbumService,
     private artistService: ArtistService,
+    private playerHistoryService: PlayerHistoryService,
   ) {
     // emit array of tracks to be played
     this.playlist = new BehaviorSubject<Track[]>([]);
@@ -103,6 +106,7 @@ export class PlayerService {
     if (tracks.length > 0) {
       this.playlist.next(tracks);
       this.updateStatus({ context });
+      this.recordPlayHistory(tracks, context);
     }
   }
 
@@ -128,5 +132,29 @@ export class PlayerService {
 
   getRequest() {
     return this.request.asObservable();
+  }
+
+  private recordPlayHistory(
+    tracks: Track[],
+    context: { type: string, id: string },
+  ) {
+    let name: string;
+    if (context.type === 'album') {
+      name = tracks[0].album.name;
+    } else {
+      const artists: SimplifiedArtist[] = [];
+      tracks.forEach((track) => {
+        if (track.artists) {
+          artists.push(...track.artists);
+        }
+      });
+      const match = artists.find((artist) => artist.id === context.id);
+      name = match && match.name;
+    }
+
+    this.playerHistoryService.nextRecord(Object.assign({},
+      context,
+      { name },
+    ));
   }
 }

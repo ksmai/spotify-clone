@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
 import { MarketService } from './market.service';
+import { PlayerHistoryService } from './player-history.service';
 import { PlayerService } from './player.service';
 import { SearchHistoryService } from './search-history.service';
 import { SearchService } from './search.service';
@@ -22,6 +23,7 @@ import { StorageService } from './storage.service';
     MarketService,
     SearchHistoryService,
     StorageService,
+    PlayerHistoryService,
   ],
 })
 export class CoreModule {

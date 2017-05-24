@@ -1,0 +1,31 @@
+<aside class="sidenav">
+  <a routerLink="/" class="search">
+    <span>Search</span>
+    <md-icon>search</md-icon>
+  </a>
+
+  <ng-container *ngIf="histories | async as records">
+    <ng-container *ngIf="playerStatus | async as status">
+      <h2 class="subheading app-font">
+        RECENTLY PLAYED
+        <button md-icon-button (click)="clear()">
+          <md-icon>delete</md-icon>
+        </button>
+      </h2>
+
+      <md-nav-list dense>
+        <a
+          *ngFor="let record of records"
+          md-list-item
+          [routerLink]="['/', record.type, record.id]"
+          class="link"
+          [class.playing]="isPlaying(record, status)"
+        >
+          <h3 md-line class="name">{{record.name}}</h3>
+          <h6 md-line class="type">{{record.type}}</h6>
+          <md-icon class="icon">volume_up</md-icon>
+        </a>
+      </md-nav-list>
+    </ng-container>
+  </ng-container>
+</aside>

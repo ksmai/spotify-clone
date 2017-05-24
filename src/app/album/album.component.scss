@@ -2,6 +2,18 @@
   display: block;
   padding-bottom: 30px;
   background-attachment: fixed;
+  position: relative;
+}
+
+/* put the background underneath the sidenav */
+:host:before {
+  content: "";
+  position: absolute;
+  left: -220px;
+  width: 220px;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
 }
 
 .metadata {

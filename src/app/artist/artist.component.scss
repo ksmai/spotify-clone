@@ -11,7 +11,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: -220px; /* put background underneath sidenav */
   right: 0;
   z-index: -1;
   background-repeat: no-repeat;
