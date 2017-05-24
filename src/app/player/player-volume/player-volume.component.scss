@@ -1,3 +1,7 @@
+:host {
+  position: relative;
+}
+
 .button {
   opacity: .5;
   transition: all .15s ease-in-out;
@@ -13,6 +17,24 @@
   transition: filter .15s ease-in-out
 }
 
+.vertical-slider {
+  display: none;
+  position: absolute;
+  right: -5px;
+  top: -115px;
+  background: rgba(#212121, .5);
+}
+
 :host(:hover) .slider {
   filter: none;
+}
+
+@media (max-width: 580px) {
+  .horizontal-slider {
+    display: none;
+  }
+
+  :host(:hover) .vertical-slider {
+    display: block;
+  }
 }

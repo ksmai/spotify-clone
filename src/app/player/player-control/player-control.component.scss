@@ -26,3 +26,9 @@
     transform: scale(1);
   }
 }
+
+@media (max-width: 450px) {
+  .button {
+    margin: 0;
+  }
+}
