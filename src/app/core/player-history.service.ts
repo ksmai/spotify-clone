@@ -30,12 +30,12 @@ export class PlayerHistoryService {
           return current;
         }
 
-        const duplicate = histories.find((record) => {
+        const duplicateIndex = histories.findIndex((record) => {
           return record.type === current.type &&
             record.id === current.id;
         });
-        if (duplicate) {
-          return histories;
+        if (duplicateIndex > -1) {
+          histories.splice(duplicateIndex, 1);
         }
 
         return [{

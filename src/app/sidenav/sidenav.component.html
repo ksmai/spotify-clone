@@ -7,13 +7,13 @@
   <ng-container *ngIf="histories | async as records">
     <ng-container *ngIf="playerStatus | async as status">
       <h2 class="subheading app-font">
-        RECENTLY PLAYED
+        <span>RECENTLY PLAYED</span>
         <button md-icon-button (click)="clear()">
           <md-icon>delete</md-icon>
         </button>
       </h2>
 
-      <md-nav-list dense>
+      <md-nav-list dense class="very-dense">
         <a
           *ngFor="let record of records"
           md-list-item
@@ -23,7 +23,7 @@
         >
           <h3 md-line class="name">{{record.name}}</h3>
           <h6 md-line class="type">{{record.type}}</h6>
-          <md-icon class="icon">volume_up</md-icon>
+          <md-icon class="volume-icon">volume_up</md-icon>
         </a>
       </md-nav-list>
     </ng-container>

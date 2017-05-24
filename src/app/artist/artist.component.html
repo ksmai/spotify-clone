@@ -36,7 +36,27 @@
 
     <md-tab-group>
       <md-tab label="OVERVIEW">
-        <section class="popular" *ngIf="tracks|async as trackList">
+        <section class="latest" *ngIf="latestAlbum|async as latest">
+          <h3 class="subheading">Latest release</h3>
+
+          <md-nav-list class="rectangle-avatar">
+            <a md-list-item [routerLink]="['/album', latest.id]">
+              <img
+                [src]="latest.images[0]?.url"
+                [alt]="latest.name"
+                md-list-avatar
+                class="latest-album-image"
+              >
+
+              <span class="latest-name">{{latest.name}}</span>
+            </a>
+          </md-nav-list>
+        </section>
+
+        <section
+          class="popular subsection"
+          *ngIf="tracks|async as trackList"
+        >
           <h3 class="subheading">Popular</h3>
 
           <spot-track-result
@@ -47,7 +67,10 @@
           ></spot-track-result>
         </section>
 
-        <section class="albums" *ngIf="albums|async as albumList">
+        <section
+          class="albums subsection"
+          *ngIf="albums|async as albumList"
+        >
           <h3 class="subheading">Albums</h3>
 
           <spot-album-result
@@ -58,7 +81,10 @@
           ></spot-album-result>
         </section>
 
-        <section class="singles" *ngIf="singles|async as singleList">
+        <section
+          class="singles subsection"
+          *ngIf="singles|async as singleList"
+        >
           <h3 class="subheading">Singles</h3>
 
           <spot-album-result
@@ -69,7 +95,10 @@
           ></spot-album-result>
         </section>
 
-        <section class="compilations" *ngIf="compilations|async as compList">
+        <section
+          class="compilations subsection"
+          *ngIf="compilations|async as compList"
+        >
           <h3 class="subheading">Compilations</h3>
 
           <spot-album-result

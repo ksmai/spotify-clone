@@ -44,3 +44,8 @@ a:active {
   color: #fff;
   font-family: "Roboto", sans-serif;
 }
+
+::selection {
+  background-color: #ff956a;
+  color: #fff;
+}

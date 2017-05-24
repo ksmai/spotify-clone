@@ -21,6 +21,7 @@ import { PlayerService } from '../core/player.service';
 })
 export class ArtistComponent implements OnInit {
   albums: Observable<SimplifiedAlbum[]>;
+  latestAlbum: Observable<SimplifiedAlbum>;
   singles: Observable<SimplifiedAlbum[]>;
   compilations: Observable<SimplifiedAlbum[]>;
   artists: Observable<Artist[]>;
@@ -36,7 +37,11 @@ export class ArtistComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.artists = this.route.data.pluck('artists');
+    this.artists = this.route.data
+      .pluck('artists')
+      .map((artists: Artist[]) => artists && artists.length > 0 ?
+        artists :
+        null);
     this.tracks = this.route.data.pluck('tracks');
     this.artist = this.route.data.pluck('artist');
     this.albums = this.filterAlbums('album');
@@ -45,6 +50,7 @@ export class ArtistComponent implements OnInit {
     this.playable = this.tracks
       .map((tracks: Track[]) => tracks.some((track) => !!track.preview_url));
     this.currentStatus = this.playerService.getCurrentStatus();
+    this.latestAlbum = this.albums.map((albums) => albums && albums[0]);
   }
 
   play(tracks: Track[], info: Artist, status: Playing): void {

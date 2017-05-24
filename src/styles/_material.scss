@@ -24,3 +24,11 @@ md-slider.thumb-on-hover {
     visibility: visible;
   }
 }
+
+.mat-nav-list.very-dense[dense] .mat-list-item .mat-list-item-content {
+  padding: 0;
+}
+
+.mat-nav-list.rectangle-avatar .mat-list-item .mat-list-avatar {
+  border-radius: 0;
+}

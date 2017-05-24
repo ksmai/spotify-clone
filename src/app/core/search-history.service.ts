@@ -30,12 +30,12 @@ export class SearchHistoryService {
           return result;
         }
 
-        const duplicate = histories.find((record) => {
+        const duplicateIndex = histories.findIndex((record) => {
           return record.type === result.type &&
             record.id === result.id;
         });
-        if (duplicate) {
-          return histories;
+        if (duplicateIndex > -1) {
+          histories.splice(duplicateIndex, 1);
         }
 
         return [{ id: result.id, name: result.name, type: result.type }]

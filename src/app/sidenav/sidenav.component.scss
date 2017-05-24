@@ -29,8 +29,16 @@
   opacity: .5;
   font-size: .7em;
   letter-spacing: .1em;
-  height: 3em;
-  line-height: 3em;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    display: inline-block;
+    line-height: 40px;
+  }
 }
 
 .link {
@@ -46,17 +54,20 @@
   opacity: 1;
 }
 
-.type {
+.sidenav .link .type {
   opacity: .5;
   text-transform: uppercase;
+  font-size: 10px;
+  margin-top: 3px;
 }
 
-.icon {
+.volume-icon {
   display: none;
+  margin-left: 5px;
 }
 
 .playing {
-  .icon {
+  .volume-icon {
     display: inline-block;
   }
 
