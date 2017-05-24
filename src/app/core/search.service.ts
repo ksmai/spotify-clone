@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/combineLatest';
@@ -146,8 +147,15 @@ export class SearchService {
     return this.sliceResults('tracks');
   }
 
+  // When getting next pages of search result, best_match would be
+  // undefined because it is not requested from the server by this.search
+  // This observable should not emit when that happens
   getBest(): Observable<Array<Artist|SimplifiedAlbum|Track>> {
-    return this.sliceResults('best_match');
+    return this
+      .sliceResults('best_match')
+      .switchMap((best) => best ?
+        Observable.of(best) :
+        Observable.empty());
   }
 
   private get emptyResult(): SearchResult {
