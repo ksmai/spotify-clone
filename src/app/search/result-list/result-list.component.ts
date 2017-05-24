@@ -76,15 +76,13 @@ export class ResultListComponent implements OnInit, OnDestroy {
 
     // prevent switching tab to the left
     // when the "recent searches" tab appears from thin air
-    /*
     this.subscription.add(
       this.histories.subscribe((histories) => {
         if (histories.length === 1) {
           setTimeout(() => this.selectedIndex += 1, 0);
         }
-      })
+      }),
     );
-*/
   }
 
   ngOnDestroy() {

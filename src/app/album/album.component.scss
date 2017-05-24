@@ -3,6 +3,7 @@
   padding-bottom: 30px;
   background-attachment: fixed;
   position: relative;
+  min-height: calc(100vh - 100px);
 }
 
 /* put the background underneath the sidenav */
