@@ -13,24 +13,34 @@
 
         <h2 class="name app-font">{{info.name}}</h2>
 
-        <button
-          *ngIf="isPlaying(info, status); else playButton"
-          md-raised-button
-          color="primary"
-          class="pause round-ripple"
-          (click)="pause()"
-        >PAUSE</button>
-
-        <ng-template #playButton>
+        <div class="buttons">
           <button
-            *ngIf="tracks|async as trackList"
+            *ngIf="isPlaying(info, status); else playButton"
             md-raised-button
             color="primary"
-            class="play round-ripple"
-            (click)="play(trackList, info, status)"
-            [disabled]="!(playable|async)"
-          >PLAY</button>
-        </ng-template>
+            class="pause round-ripple"
+            (click)="pause()"
+          >PAUSE</button>
+
+          <ng-template #playButton>
+            <button
+              *ngIf="tracks|async as trackList"
+              md-raised-button
+              color="primary"
+              class="play round-ripple"
+              (click)="play(trackList, info, status)"
+              [disabled]="!(playable|async)"
+            >PLAY</button>
+          </ng-template>
+
+          <a
+            [disabled]="!info.external_urls?.spotify"
+            [href]="info.external_urls?.spotify"
+            target="_blank"
+            class="view round-ripple"
+            md-button
+          >SPOTIFY</a>
+        </div>
       </section>
     </section>
 

@@ -19,6 +19,19 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
   display: block;
 }
 
+.powered-by {
+  display: block;
+  white-space: nowrap;
+  font-size: .8em;
+  background-image: url("../../../assets/spotify-logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right top;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+
 .search {
   display: flex;
   justify-content: space-between;
@@ -87,6 +100,7 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
   animation: slide-in $sliding-time $sliding-easing;
 }
 
+.powered-by,
 .very-dense .link .name {
   transition: font-size $sliding-time $sliding-easing;
 }
@@ -123,6 +137,11 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
       }
     }
 
+    .powered-by {
+      font-size: 0;
+      background-image: url("../../../assets/spotify-icon.png");
+      background-position: center;
+    }
 
     .volume-icon {
       margin-left: 0;
@@ -131,7 +150,7 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
 }
 
 @for $i from 1 through 10 {
-  $height: #{234 + 60 * $i}px;
+  $height: #{274 + 60 * $i}px;
   @media (min-height: $height) {
     .sidenav .very-dense .link:nth-child(#{$i}) {
       display: block;

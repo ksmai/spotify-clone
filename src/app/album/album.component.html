@@ -16,23 +16,33 @@
         {{albumData.tracks.items.length}} SONGS
       </span>
 
-      <button
-        *ngIf="isPlaying(albumData, status); else playBtn"
-        md-raised-button
-        color="primary"
-        class="pause round-ripple"
-        (click)="pause()"
-      >PAUSE</button>
-
-      <ng-template #playBtn>
+      <div class="buttons">
         <button
+          *ngIf="isPlaying(albumData, status); else playBtn"
           md-raised-button
           color="primary"
-          class="play round-ripple"
-          [disabled]="!(playable|async)"
-          (click)="play(albumData, status)"
-        >PLAY</button>
-      </ng-template>
+          class="pause round-ripple"
+          (click)="pause()"
+        >PAUSE</button>
+
+        <ng-template #playBtn>
+          <button
+            md-raised-button
+            color="primary"
+            class="play round-ripple"
+            [disabled]="!(playable|async)"
+            (click)="play(albumData, status)"
+          >PLAY</button>
+        </ng-template>
+
+        <a
+          [href]="albumData.external_urls?.spotify"
+          target="_blank"
+          md-button
+          [disabled]="!albumData.external_urls?.spotify"
+          class="view round-ripple"
+        >SPOTIFY</a>
+      </div>
     </section>
 
     <spot-track-result

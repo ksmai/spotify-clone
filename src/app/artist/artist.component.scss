@@ -55,6 +55,13 @@
   text-align: center;
 }
 
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
 .subheading {
   text-align: center;
   color: #fff;

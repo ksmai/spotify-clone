@@ -34,6 +34,11 @@
   white-space: nowrap;
 }
 
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .tracks {
   margin-top: 16px;
   margin-right: 16px;
@@ -71,10 +76,10 @@
       z-index: 1;
 
       &:hover {
+        white-space: initial;
         background-color: #303030;
         color: #fff;
         font-weight: 700;
-        white-space: initial;
       }
     }
 
@@ -114,8 +119,7 @@
     text-align: center;
   }
 
-  .pause,
-  .play {
-    margin: auto;
+  .buttons {
+    justify-content: center;
   }
 }

@@ -24,6 +24,13 @@
   ></spot-player-volume>
 </md-toolbar>
 
+<a
+  *ngIf="currentTrack?.external_urls?.spotify"
+  [href]="currentTrack?.external_urls?.spotify"
+  target="_blank"
+  class="spotify"
+>Listen on Spotify</a>
+
 <audio
   #audio
   [src]="src"
