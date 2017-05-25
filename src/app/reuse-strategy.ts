@@ -9,14 +9,16 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   private detachedRouteHandle: DetachedRouteHandle;
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    return route.url.length === 0;
+    return route.routeConfig.path === '';
   }
 
   store(
     route: ActivatedRouteSnapshot,
     detachedTree: DetachedRouteHandle,
   ): void {
-    this.detachedRouteHandle = detachedTree;
+    if (this.shouldDetach(route)) {
+      this.detachedRouteHandle = detachedTree;
+    }
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
@@ -26,7 +28,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle|null {
-    if (!route.routeConfig) {
+    if (!route.routeConfig || !this.shouldDetach(route)) {
       return null;
     }
 
