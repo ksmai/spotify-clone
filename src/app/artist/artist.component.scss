@@ -36,17 +36,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  padding: 8px;
 }
 
 .name {
   font-size: 3em;
   line-height: 1.6;
   font-weight: 700;
+  text-align: center;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .follower {
   font-size: .8em;
   letter-spacing: 3px;
+  text-align: center;
 }
 
 .subheading {
@@ -73,4 +79,10 @@
 
 .latest a {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: 2em;
+  }
 }

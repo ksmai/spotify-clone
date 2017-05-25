@@ -2,3 +2,9 @@
   padding-bottom: 100px; /* player */
   padding-left: 220px; /* sidenav */
 }
+
+@media (max-width: 768px) {
+  .content {
+    padding-left: 40px; /* sidenav collapsed */
+  }
+}

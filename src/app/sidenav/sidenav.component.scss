@@ -1,10 +1,15 @@
+$sliding-time: .175s;
+$sliding-easing: cubic-bezier(.4, 0, .2, 1);
+
 :host {
   position: fixed;
   top: 0;
   left: 0;
   width: 220px;
   bottom: 100px;
+  z-index: 10;
   background: rgba(0, 0, 0, .3);
+  transition: width $sliding-time $sliding-easing;
 }
 
 .sidenav {
@@ -73,5 +78,65 @@
 
   .name {
     opacity: 1;
+  }
+}
+
+.name,
+.collapsable {
+  animation: slide-in $sliding-time $sliding-easing;
+}
+
+.very-dense .link .name {
+  transition: font-size $sliding-time $sliding-easing;
+}
+
+@media (max-width: 768px) {
+  :host {
+    background: rgba(0, 0, 0, .8);
+  }
+
+  /* only collapse the sidenav when not hovering */
+  :host(:not(:hover)) {
+    width: 40px;
+
+    .sidenav {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .subheading {
+      justify-content: center;
+    }
+
+    .sidenav .very-dense .link .collapsable,
+    .collapsable {
+      display: none;
+    }
+
+    .very-dense .link .name {
+      font-size: 0;
+      text-align: center;
+
+      &::first-letter {
+        font-size: 20px;
+      }
+    }
+
+
+    .volume-icon {
+      margin-left: 0;
+    }
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
