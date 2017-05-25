@@ -37,7 +37,7 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
   height: 40px;
   line-height: 40px;
   width: 100%;
-  display: flex;
+  display: none;
   justify-content: space-between;
 
   span {
@@ -46,8 +46,9 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
   }
 }
 
-.link {
+.sidenav .very-dense .link {
   opacity: 1;
+  display: none;
 }
 
 .name {
@@ -125,6 +126,19 @@ $sliding-easing: cubic-bezier(.4, 0, .2, 1);
 
     .volume-icon {
       margin-left: 0;
+    }
+  }
+}
+
+@for $i from 1 through 10 {
+  $height: #{234 + 60 * $i}px;
+  @media (min-height: $height) {
+    .sidenav .very-dense .link:nth-child(#{$i}) {
+      display: block;
+    }
+
+    .subheading {
+      display: flex;
     }
   }
 }
