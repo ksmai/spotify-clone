@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/shareReplay';
@@ -25,7 +24,6 @@ export class PlayerService {
   private request: Subject<boolean>;
 
   constructor(
-    private http: Http,
     private albumService: AlbumService,
     private artistService: ArtistService,
     private playerHistoryService: PlayerHistoryService,
