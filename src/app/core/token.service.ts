@@ -9,17 +9,29 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AccessToken } from '../../data-models/access-token';
 
 @Injectable()
 export class TokenService {
   private headers: ReplaySubject<Headers>;
+  private subscription: Subscription;
 
   constructor(private http: Http) {
     this.headers = new ReplaySubject(1);
+  }
 
-    Observable
+  getAuthHeader(): Observable<Headers> {
+    if (!this.subscription) {
+      this.scheduleUpdates();
+    }
+
+    return this.headers.asObservable().take(1);
+  }
+
+  private scheduleUpdates(): void {
+    this.subscription = Observable
       .interval(1800000)
       .startWith(-1)
       .switchMap(() => this.updateToken())
@@ -31,10 +43,6 @@ export class TokenService {
         return headers;
       })
       .subscribe(this.headers);
-  }
-
-  getAuthHeader(): Observable<Headers> {
-    return this.headers.asObservable().take(1);
   }
 
   private updateToken(): Observable<AccessToken> {

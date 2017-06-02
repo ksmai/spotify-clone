@@ -11,12 +11,14 @@ import { MockBackend } from '@angular/http/testing';
 
 import {
   FakeMarketService,
+  FakeTokenService,
   testAlbum,
   testArtist,
   testTrack,
 } from '../../test-utils/';
 import { ArtistService } from './artist.service';
 import { MarketService } from './market.service';
+import { TokenService } from './token.service';
 
 const myArtist = testArtist();
 const myTracks = [testTrack(), testTrack()];
@@ -28,10 +30,12 @@ describe('ArtistService', () => {
   let mockBackend: MockBackend;
   let lastConnection: any;
   let marketSpy: jasmine.Spy;
+  let tokenSpy: jasmine.Spy;
 
   beforeEach(() => {
     injector = ReflectiveInjector.resolveAndCreate([
       { provide: MarketService, useClass: FakeMarketService },
+      { provide: TokenService, useClass: FakeTokenService },
       { provide: ConnectionBackend, useClass: MockBackend },
       { provide: RequestOptions, useClass: BaseRequestOptions },
       Http,
@@ -43,6 +47,8 @@ describe('ArtistService', () => {
     mockBackend.connections.subscribe((conn: any) => lastConnection = conn);
     lastConnection = null;
     marketSpy = spyOn(injector.get(MarketService), 'getCountryCode')
+      .and.callThrough();
+    tokenSpy = spyOn(injector.get(TokenService), 'getAuthHeader')
       .and.callThrough();
   });
 
@@ -56,6 +62,7 @@ describe('ArtistService', () => {
       done();
     });
 
+    expect(tokenSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)
       .toEqual('https://api.spotify.com/v1/artists/123');
@@ -71,6 +78,7 @@ describe('ArtistService', () => {
       done();
     });
 
+    expect(tokenSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)
       .toEqual('https://api.spotify.com/v1/artists/123/related-artists');
@@ -87,6 +95,7 @@ describe('ArtistService', () => {
     });
 
     expect(marketSpy).toHaveBeenCalled();
+    expect(tokenSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)
       .toContain('https://api.spotify.com/v1/artists/123/top-tracks');
@@ -102,6 +111,7 @@ describe('ArtistService', () => {
       done();
     });
 
+    expect(tokenSpy).toHaveBeenCalled();
     expect(marketSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)

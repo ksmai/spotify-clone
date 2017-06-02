@@ -11,9 +11,10 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { SearchResult } from '../../data-models/search-result';
-import { FakeMarketService } from '../../test-utils/';
+import { FakeMarketService, FakeTokenService } from '../../test-utils/';
 import { MarketService } from './market.service';
 import { SearchService } from './search.service';
+import { TokenService } from './token.service';
 
 describe('SearchService', () => {
   let injector: ReflectiveInjector;
@@ -21,12 +22,14 @@ describe('SearchService', () => {
   let lastConnection: any;
   let searchService: SearchService;
   let marketSpy: jasmine.Spy;
+  let tokenSpy: jasmine.Spy;
 
   beforeEach(() => {
     injector = ReflectiveInjector.resolveAndCreate([
       { provide: RequestOptions, useClass: BaseRequestOptions },
       { provide: ConnectionBackend, useClass: MockBackend },
       { provide: MarketService, useClass: FakeMarketService },
+      { provide: TokenService, useClass: FakeTokenService },
       Http,
       SearchService,
     ]);
@@ -36,6 +39,8 @@ describe('SearchService', () => {
     mockBackend.connections.subscribe((conn: any) => lastConnection = conn);
     lastConnection = null;
     marketSpy = spyOn(injector.get(MarketService), 'getCountryCode')
+      .and.callThrough();
+    tokenSpy = spyOn(injector.get(TokenService), 'getAuthHeader')
       .and.callThrough();
   });
 
@@ -58,6 +63,8 @@ describe('SearchService', () => {
     searchService.nextQuery(testResult.query);
     tick(10000); // debounceTime = 300
 
+    expect(marketSpy).toHaveBeenCalled();
+    expect(tokenSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)
       .toContain('https://api.spotify.com/v1/search');

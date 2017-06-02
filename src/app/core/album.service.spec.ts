@@ -10,8 +10,9 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { Album } from '../../data-models/album';
-import { testAlbum } from '../../test-utils/';
+import { FakeTokenService, testAlbum } from '../../test-utils/';
 import { AlbumService } from './album.service';
+import { TokenService } from './token.service';
 
 const myAlbum: Album = testAlbum();
 
@@ -20,11 +21,13 @@ describe('AlbumService', () => {
   let mockBackend: MockBackend;
   let lastConnection: any;
   let albumService: AlbumService;
+  let tokenSpy: jasmine.Spy;
 
   beforeEach(() => {
     injector = ReflectiveInjector.resolveAndCreate([
       { provide: RequestOptions, useClass: BaseRequestOptions },
       { provide: ConnectionBackend, useClass: MockBackend },
+      { provide: TokenService, useClass: FakeTokenService },
       Http,
       AlbumService,
     ]);
@@ -33,6 +36,8 @@ describe('AlbumService', () => {
     mockBackend = injector.get(ConnectionBackend) as MockBackend;
     mockBackend.connections.subscribe((conn: any) => lastConnection = conn);
     lastConnection = null;
+    tokenSpy = spyOn(injector.get(TokenService), 'getAuthHeader')
+      .and.callThrough();
   });
 
   afterEach(() => {
@@ -45,6 +50,7 @@ describe('AlbumService', () => {
       done();
     });
 
+    expect(tokenSpy).toHaveBeenCalled();
     expect(lastConnection).toBeTruthy();
     expect(lastConnection.request.url)
       .toEqual('https://api.spotify.com/v1/albums/123');

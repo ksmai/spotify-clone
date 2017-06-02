@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import {
   FakeMarketService,
   FakeStorageService,
+  FakeTokenService,
   testAlbum,
   testArtist,
   testTrack,
@@ -22,6 +23,7 @@ import { MarketService } from './market.service';
 import { PlayerHistoryService } from './player-history.service';
 import { PlayerService } from './player.service';
 import { StorageService } from './storage.service';
+import { TokenService } from './token.service';
 
 describe('PlayerService', () => {
   let injector: ReflectiveInjector;
@@ -35,6 +37,7 @@ describe('PlayerService', () => {
       { provide: ConnectionBackend, useClass: MockBackend },
       { provide: MarketService, useClass: FakeMarketService },
       { provide: StorageService, useClass: FakeStorageService },
+      { provide: TokenService, useClass: FakeTokenService },
       Http,
       AlbumService,
       ArtistService,

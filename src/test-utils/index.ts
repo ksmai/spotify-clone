@@ -8,3 +8,4 @@ export { FakeRouter } from './fake-router';
 export { FakeMarketService } from './fake-market-service';
 export { FakeStorageService } from './fake-storage-service';
 export { FakeActivatedRoute } from './fake-activated-route';
+export { FakeTokenService } from './fake-token-service';
