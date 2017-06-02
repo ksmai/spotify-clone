@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
+import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/expand';
 import 'rxjs/add/operator/map';
@@ -16,20 +17,28 @@ import { PagingObject } from '../../data-models/paging-object';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
 import { MarketService } from './market.service';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class ArtistService {
   private next: string;
 
-  constructor(private http: Http, private marketService: MarketService) {
+  constructor(
+    private http: Http,
+    private marketService: MarketService,
+    private tokenService: TokenService,
+  ) {
   }
 
   getArtist(id: string): Observable<Artist> {
-    return this.http
-      .get(`https://api.spotify.com/v1/artists/${id}`)
-      .retry(5)
-      .map((res: Response) => res.json() as Artist)
-      .catch(() => Observable.of(null));
+    return this.tokenService
+      .getAuthHeader()
+      .switchMap((headers) => this.http
+        .get(`https://api.spotify.com/v1/artists/${id}`, { headers })
+        .retry(5)
+        .map((res: Response) => res.json() as Artist)
+        .catch(() => Observable.of(null)),
+      );
   }
 
   getAlbums(id: string): Observable<SimplifiedAlbum[]> {
@@ -43,7 +52,11 @@ export class ArtistService {
     return this.marketService
       .getCountryCode()
       .do((country) => params.set('market', country))
-      .switchMap(() => this.http.get(url, { search: params }))
+      .combineLatest(this.tokenService.getAuthHeader(), (mkt, h) => h)
+      .switchMap((headers) => this.http.get(url, {
+        headers,
+        search: params,
+      }))
       .retry(5)
       .map((res: Response) => res.json() as PagingObject<SimplifiedAlbum>)
       .do((page) => this.next = page.next)
@@ -54,11 +67,16 @@ export class ArtistService {
   }
 
   getRelatedArtists(id: string): Observable<Artist[]> {
-    return this.http
-      .get(`https://api.spotify.com/v1/artists/${id}/related-artists`)
-      .retry(5)
-      .map((res: Response) => res.json().artists as Artist[])
-      .catch(() => Observable.of([]));
+    return this.tokenService
+      .getAuthHeader()
+      .switchMap((headers) => this.http
+        .get(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
+          headers,
+        })
+        .retry(5)
+        .map((res: Response) => res.json().artists as Artist[])
+        .catch(() => Observable.of([])),
+      );
   }
 
   getTopTracks(id: string): Observable<Track[]> {
@@ -70,10 +88,11 @@ export class ArtistService {
 
         return params;
       })
-      .switchMap((params: URLSearchParams) => {
+      .combineLatest(this.tokenService.getAuthHeader())
+      .switchMap(([params, headers]: [URLSearchParams, Headers]) => {
         const url = `https://api.spotify.com/v1/artists/${id}/top-tracks`;
 
-        return this.http.get(url, { search: params });
+        return this.http.get(url, { headers, search: params });
       })
       .retry(5)
       .map((res: Response) => res.json().tracks as Track[])
@@ -81,12 +100,15 @@ export class ArtistService {
   }
 
   private getNextAlbums(): Observable<SimplifiedAlbum[]> {
-    return this.http
-      .get(this.next)
-      .retry(5)
-      .map((res: Response) => res.json() as PagingObject<SimplifiedAlbum>)
-      .do((page) => this.next = page.next)
-      .map((page) => page.items as SimplifiedAlbum[])
-      .catch(() => Observable.of([]));
+    return this.tokenService
+      .getAuthHeader()
+      .switchMap((headers) => this.http
+        .get(this.next, { headers })
+        .retry(5)
+        .map((res: Response) => res.json() as PagingObject<SimplifiedAlbum>)
+        .do((page) => this.next = page.next)
+        .map((page) => page.items as SimplifiedAlbum[])
+        .catch(() => Observable.of([])),
+      );
   }
 }

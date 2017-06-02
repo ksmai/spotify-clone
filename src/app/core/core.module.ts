@@ -1,5 +1,5 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpModule, RequestOptions } from '@angular/http';
 
 import { AlbumService } from './album.service';
 import { ArtistService } from './artist.service';
@@ -9,6 +9,7 @@ import { PlayerService } from './player.service';
 import { SearchHistoryService } from './search-history.service';
 import { SearchService } from './search.service';
 import { StorageService } from './storage.service';
+import { TokenService } from './token.service';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { StorageService } from './storage.service';
     SearchHistoryService,
     StorageService,
     PlayerHistoryService,
+    TokenService,
   ],
 })
 export class CoreModule {

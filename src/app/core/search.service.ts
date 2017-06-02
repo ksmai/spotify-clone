@@ -22,6 +22,7 @@ import { SearchResult } from '../../data-models/search-result';
 import { SimplifiedAlbum } from '../../data-models/simplified-album';
 import { Track } from '../../data-models/track';
 import { MarketService } from './market.service';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class SearchService {
@@ -35,7 +36,11 @@ export class SearchService {
   private hasNextArtists: boolean;
   private hasNextTracks: boolean;
 
-  constructor(private http: Http, private marketService: MarketService) {
+  constructor(
+    private http: Http,
+    private marketService: MarketService,
+    private tokenService: TokenService,
+  ) {
     this.isLoading = new BehaviorSubject(false);
     this.isEnded = new BehaviorSubject(false);
     this.queries = new Subject<string>();
@@ -182,8 +187,9 @@ export class SearchService {
     return this.marketService
       .getCountryCode()
       .do((country: string) => params.set('market', country))
-      .switchMap(() => this.http
-        .get(this.url, { search: params })
+      .combineLatest(this.tokenService.getAuthHeader(), (mkt, h) => h)
+      .switchMap((headers) => this.http
+        .get(this.url, { headers, search: params })
         .retry(5)
         .map((res: Response) => res.json() as SearchResult)
         .map((result) => Object.assign(result, { query: q }))
