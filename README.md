@@ -8,6 +8,7 @@ https://ksmai.github.io/spotify-clone/
 The objective of this project is to create a new user interface similar to [Spotify web player](https://play.spotify.com/) with data fetched from the [Spotify web API](https://developer.spotify.com/web-api/). It allows users to search and view various songs/albums/artists, and listen to the music with the built-in HTML5 audio player. Users can also look up their recent search/play history.
 
 ## Known limitations
+**UPDATE** Starting from 30 May, Spotify requires requests to every API endpoint to be authenticated. So this project has been updated to authenticate all requests.  
 Since this project sends unauthenticated requests to the Spotify web API, certain features of the official web player are not supported, including
   - playlists
   - new releases
